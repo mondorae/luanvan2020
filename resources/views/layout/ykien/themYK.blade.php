@@ -54,8 +54,9 @@
                                                     <option value="{{$lyk->id_ykien}}">{{$lyk->loai_y_kien}}</option>
                                                 @endforeach
                                         </select>
-                                        <label for="nguoi_de_xuat" class="y-kien 9 10" >Người được đề xuất</label>
-                                        <input type="text" class="form-control y-kien 9 10" name="nguoi_de_xuat" >
+                                        <!-- Số 1 -->
+                                        <label for="nguoi_de_xuat" class="y-kien {{$chucnang[1]}}" >Người được đề xuất</label>
+                                        <input type="text" class="form-control y-kien 9 10{{$chucnang[1]}}" name="nguoi_de_xuat" >
                                         <label for="truong_hop" class="y-kien 3">Các Loại Nghỉ Phép Riêng</label>
                                         <select name="truong_hop" id="truong_hop" class="form-control col-md-3 y-kien 3" style="-webkit-appearance: auto;">
                                             <option selected> --Chọn--</option>
@@ -64,11 +65,12 @@
                                                     <option value="3">Người Thân Mất</option>
                                         </select>
                                         <div class="text-muted y-kien 3">*Người Thân Mất* được tính theo pháp luật gồm: Bố đẻ, mẹ đẻ, bố vợ, mẹ vợ hoặc bố chồng, mẹ chồng, vợ hoặc chồng, con</div>
-                                        <label for="ly_do" class="y-kien 1 2 3 4 5 6 7 8 9 10 11">Nội dung (lý do)</label>
-                                        <textarea class="form-control y-kien 1 2 3 4 5 6 7 8 9 10 11" name="ly_do" placeholder=""></textarea>
-                                        <label for="gia_tri" class="y-kien 5" >Số tiền</label>
-                                        <input type="text" class="form-control y-kien 5" name="gia_tri" placeholder="Giá trị" value="" >
-                                        
+                                        <!-- Số 2 -->
+                                        <label for="ly_do" class="y-kien {{$chucnang[2]}}">Nội dung (lý do)</label>
+                                        <textarea class="form-control y-kien {{$chucnang[2]}}" name="ly_do" placeholder=""></textarea>
+                                        <!-- Số 3 -->
+                                        <label for="gia_tri" class="y-kien {{$chucnang[3]}}" >Số tiền</label>
+                                        <input type="text" class="form-control y-kien {{$chucnang[3]}}" name="gia_tri" placeholder="Giá trị" value="" >
                                         <label for="phong_ban" class="y-kien 8">Chọn Phòng Ban Mong Muốn</label>
                                         <select name="phong_ban" id="phong_ban" class="form-control y-kien 8" style="-webkit-appearance: auto;">
                                             <option value="0"selected>--Phòng-- </option>
@@ -82,13 +84,17 @@
                                                     <option value="{{$pb->id_phongban}}">{{$pb->ten_phong_ban}}</option>
                                             @endforeach
                                         </select> --}}
-                                        <label for="thoi_gian_nghi" class="y-kien 1" >Thời gian nghỉ (ngày)</label>
-                                        <input type="text" class="form-control y-kien 1" name="thoi_gian_nghi" placeholder="Ngày" >
-                                        <label for="ngay_bat_dau" class="y-kien 1 2 3 4" >Bắt đầu từ ngày</label>
-                                        <label for="ngay_bat_dau" class="y-kien 7" >Ngày tăng ca</label>
-                                        <input type="date" class="form-control y-kien 1 2 3 4 7" name="ngay_bat_dau" >
-                                        {{-- <label for="nop_minh_chung" class="y-kien ">Nộp Minh Chứng (Hình Ảnh)</label>
-                                        <input type="file" class="form-control y-kien 2 3 4" name="nop_minh_chung" accept="image/png, image/jpeg, image/jpg"> --}}
+                                        <!-- số 4 -->
+                                        <label for="thoi_gian_nghi" class="y-kien {{$chucnang[4]}}" >Thời gian nghỉ (ngày)</label>
+                                        <input type="text" class="form-control y-kien {{$chucnang[4]}}" name="thoi_gian_nghi" placeholder="Ngày" >
+                                        <!-- số 5 -->
+                                        <label for="ngay_bat_dau" class="y-kien {{$chucnang[5]}}" >Bắt đầu từ ngày / Ngày tăng ca</label>
+
+                                        {{-- <label for="ngay_bat_dau" class="y-kien 7" >Ngày tăng ca</label> --}}
+                                        <input type="date" class="form-control y-kien {{$chucnang[5]}}" name="ngay_bat_dau" >
+                                        <!-- Số 6 -->
+                                        <label for="nop_minh_chung" class="y-kien {{$chucnang[6]}}">Nộp Minh Chứng (Hình Ảnh)</label>
+                                        <input type="file" class="form-control y-kien {{$chucnang[6]}}" name="nop_minh_chung" accept="image/png, image/jpeg, image/jpg">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                             <button class="btn btn-primary" type="submit">Lưu</button>
                                             <button class="btn btn-default" type="reset">Reset</button>

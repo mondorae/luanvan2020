@@ -34,8 +34,8 @@
                                             <div class="form-row mb-3">
                                                 <div class="form-group col-md-4">
                                                     <label >Loại phụ lục</label>
-                                                    <select id="ten_hop_dong" name="ten_hop_dong" class="form-control" style="-webkit-appearance: auto;">
-                                                        <option selected value="0"> Chọn Loại phụ lục</option>
+                                                    <select id="ten_hop_dong" name="ten_hop_dong" class="form-control" style="-webkit-appearance: auto;" required>
+                                                        <option selected value="" required> Chọn Loại phụ lục</option>
                                                         @foreach($loaipl as $lpl)
                                                             <option value="{{$lpl->id}}">{{$lpl->ten_phu_luc}}</option>
                                                             @endforeach
@@ -53,7 +53,7 @@
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label>Nhập mức lương mới (đơn vị VNĐ)</label>
-                                                    <input type="text" class="form-control" name="thay_doi_luong">
+                                                    <input type="text" class="form-control" name="thay_doi_luong" required>
                                                 </div>
                                                 </div>
                                                 </div>
@@ -109,8 +109,8 @@
                                                     <div class="form-row  ">
                                                     <div class="form-group col-md-6">
                                                         <label>Phòng ban mới</label>
-                                                        <select name="phong_ban" class="form-control" style="-webkit-appearance: auto;" id="phong_ban_moi">
-                                                            <option selected value="0">Chọn phòng ban</option>
+                                                        <select name="phong_ban" class="form-control" style="-webkit-appearance: auto;" id="phong_ban_moi" required>
+                                                            <option selected value="" >Chọn phòng ban</option>
                                                             @foreach($phongban as $pb)
                                                           <option value="{{$pb->id_phongban}}">{{$pb->ten_phong_ban}}</option>
                                                       @endforeach
@@ -118,8 +118,8 @@
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label>Chức vụ mới</label>
-                                                        <select name="chuc_vu_moi" class="form-control" style="-webkit-appearance: auto;" id="chuc_vu_moi">
-                                                            <option selected value="">Chọn chức vụ</option>
+                                                        <select name="chuc_vu_moi" class="form-control" style="-webkit-appearance: auto;" id="chuc_vu_moi" required>
+                                                            <option selected value="" required>Chọn chức vụ</option>
                                                             @foreach($chucvu as $cv)
                                                           <option value="{{$cv->id_chucvu}}">{{$cv->ten_chuc_vu}}</option>
                                                       @endforeach
@@ -200,7 +200,7 @@
                                                 <div class="form-row mb-3">
                                                     <div class="form-group col-md-3">
                                                         <label>Ngày bắt đầu hiệu lực</label>
-                                                        <input type="date" class="form-control" name="ngay_bat_dau">
+                                                        <input type="date" class="form-control" name="ngay_bat_dau" required>
                                                       </div>
                                                       <div class="form-group col-md-3">
                                                           <label>Ngày kết thúc (nếu có)</label>

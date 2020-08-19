@@ -1,135 +1,161 @@
-.banner .item img {
-    height: 565px;
-    overflow: hidden;
-    width: 100%;
-    margin-left: 5px;
-}
-
-.page-new .inner {
-    margin-bottom: 30px;
-    height: 450px;
-}
-
-.page-new .inner .page-new-content .desc {
-    font-weight: 500;
-    padding: 10px;
-    color: red;
-    text-transform: uppercase;
-    text-align: inherit;
-}
-
-
-/*dangky*/
-
-.form_dangky {
-    margin-top: 0px;
-    margin-bottom: 50px;
-}
-
-.panel.panel-default {
-    border: 1px solid #ddd;
-}
-
-.panel-heading {
-    color: #333;
-    background-color: #f5f5f5;
-}
-
-.panel-heading h3 {
-    text-align: center;
-    padding: 10px;
-}
-
-.panel-body {
-    padding: 15px;
-}
-
-
-/*dangnhap*/
-
-.panel.panel-default {
-    border: 1px solid #bc9b9b00;
-    border-radius: 4px;
-    border-color: #bababa;
-    margin-top: 150px;
-    margin-bottom: 20px;
-}
-
-.panel-body label {
-    font-weight: 700;
-}
-
-input.form-control {
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-}
-
-button.btn.btn-default {
-    color: #333;
-    background-color: #cfcdcd;
-    border-color: #ccc;
-}
-
-
-/*gioithieu*/
-
-.about {
-    padding-top: 130px;
-}
-
-.about h1 {
-    margin-top: 40px;
-    margin-bottom: 30px;
-}
-
-.about p {
-    line-height: 25px;
-    margin-bottom: 80px;
-}
-
-ol li {
-    margin-left: 5px;
-}
-
-
-/*maps*/
-
-iframe {
-    border: 0;
-    width: 100%;
-    margin-top: 100px;
-    margin-bottom: 20px;
-}
-
-.contact_right form {
-    padding-top: 20px;
-}
-
-.well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-}
-
-
-/*li.active_menu:active a {
+    .banner .item img {
+        height: 600px;
+        overflow: hidden;
+        width: 100%;
+        margin-left: 5px;
+    }
+    
+    .banner p {
+        width: 70px;
+        text-align: center;
+        position: absolute;
+        color: floralwhite;
+        top: 520px;
+        left: 48%;
+        z-index: 9;
+    }
+    
+    .banner .imgscroll {
+        width: 70px;
+        text-align: center;
+        position: absolute;
+        top: 528px;
+        left: 48%;
+        z-index: 9;
+        animation: mymove 1.5s infinite;
+    }
+    
+    @keyframes mymove {
+        from {
+            top: 565px;
+        }
+        to {
+            opacity: 0;
+            top: 660px
+        }
+    }
+    
+    .page-new .inner {
+        margin-bottom: 30px;
+        height: 450px;
+    }
+    
+    .infor-td {
+        padding: 20px;
+        margin: 20px 0px;
+        background-color: #1bbfdd5e;
+        border-radius: 5px;
+        line-height: 25px;
+    }
+    
+    .page-new .inner .page-new-content .desc {
+        font-weight: 500;
+        padding: 10px;
+        color: red;
+        text-transform: uppercase;
+        text-align: inherit;
+    }
+    /*dangky*/
+    
+    .form_dangky {
+        margin-top: 0px;
+        margin-bottom: 50px;
+    }
+    
+    .panel.panel-default {
+        border: 1px solid #ddd;
+    }
+    
+    .panel-heading {
+        color: #333;
+        background-color: #f5f5f5;
+    }
+    
+    .panel-heading h3 {
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .panel-body {
+        padding: 15px;
+    }
+    /*dangnhap*/
+    
+    .panel.panel-default {
+        border: 1px solid #bc9b9b00;
+        border-radius: 4px;
+        border-color: #bababa;
+        margin-top: 150px;
+        margin-bottom: 20px;
+    }
+    
+    .panel-body label {
+        font-weight: 700;
+    }
+    
+    input.form-control {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    }
+    
+    button.btn.btn-default {
+        color: #333;
+        background-color: #cfcdcd;
+        border-color: #ccc;
+    }
+    /*gioithieu*/
+    
+    .about {
+        padding-top: 130px;
+    }
+    
+    .about h1 {
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+    
+    .about p {
+        line-height: 25px;
+        margin-bottom: 80px;
+    }
+    
+    ol li {
+        margin-left: 5px;
+    }
+    /*maps*/
+    
+    iframe {
+        border: 0;
+        width: 100%;
+        margin-top: 100px;
+        margin-bottom: 20px;
+    }
+    
+    .contact_right form {
+        padding-top: 20px;
+    }
+    
+    .well {
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    }
+    /*li.active_menu:active a {
     color: red !important;
 }*/
-
-li.active_menu a:active {
-    color: red !important;
-}
-
-ul .active {
-    background-color: #9292f8;
-    border-radius: 12px;
-}
-
-
-/*ul .active a:hover{
+    
+    li.active_menu a:active {
+        color: red !important;
+    }
+    
+    ul .active {
+        background-color: #9292f8;
+        border-radius: 12px;
+    }
+    /*ul .active a:hover{
 	color: white !important;
 } 
 */

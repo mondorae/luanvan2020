@@ -15,6 +15,12 @@
                             @endif
                     <!-- /.col-lg-12 -->
                     <div class="row">
+                    <div class="col">
+                        <form action="{{url('private/luong/update')}}" method="POST">
+                            {{ csrf_field() }}
+                            <input class="btn btn-primary btn-lg btn-block" type="submit" name="" value="cập nhật" />
+                        </form>
+                    </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             
@@ -35,23 +41,22 @@
                             <tr class="even gradeC" align="center">
                                 <th>{{date('m / Y',strtotime($l->luong_thang))}}</th>
                                 <td>{{$l->tbl_hosonhanvien->ho_ten}}</td>
-                                <td>{{$l->so_gio_lam_viec}}</td>
+                                <td>{{round($l->so_gio_lam_viec,1)}}</td>
                                 <td>
                                     @if(isset($l->tong_tien_luong) && isset($l->thue_thu_nhap))
-                                        {{$l->tong_tien_luong - $l->thue_thu_nhap}}
+                                        {{number_format(($l->tong_tien_luong - $l->thue_thu_nhap))}}
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-primary" href="{{url('luong/chitiet/'.$l->id_bangluong)}}">Xem Chi Tiết</a>
+                                    <a class="btn btn-outline-primary" href="{{url('private/luong/chitiet/'.$l->id_bangluong)}}">Xem Chi Tiết</a>
                                 </td>
                                 <td>
-                                    ghi chú
+                                    {{date('H:i d-m-Y',strtotime($l->updated_at))}}
                                 </td>
                             </tr> 
                             @endforeach
                         </tbody>
                     </table>
-                    <div>CẬP NHẬT TẤT CẢ</div>
                 <!-- /.row -->
             </div>
                         </div>

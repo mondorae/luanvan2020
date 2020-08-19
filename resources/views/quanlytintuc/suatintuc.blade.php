@@ -39,7 +39,7 @@
                             @endif
                         <div class="card-body">
                            
-                        <form class="needs-validation" method="POST" action="{{url('private/tintuc/sua/'.$tintuc->id)}}" enctype="multipart/form-data" novalidate>
+                        <form class="needs-validation" method="POST" action="{{url('private/tintuc/sua/'.$tintuc->id)}}" enctype="multipart/form-data" >
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -50,7 +50,7 @@
                                             
                                             <div class="form-group col-md-12">
                                                 <label>Thể loại</label>
-                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;">
+                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;" required>
                                                     @foreach($theloai as $tl)
                                                     <option 
                                                     @if($tintuc->loaitin->theloai->id==$tl->id)
@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Loại tin</label>
-                                                <select class="form-control" name="LoaiTin" style="-webkit-appearance: auto;">
+                                                <select class="form-control" name="LoaiTin" style="-webkit-appearance: auto;" required>
                                                     @foreach($loaitin as $lt)
                                                     <option 
                                                     @if($tintuc->loaitin->id==$lt->id)
@@ -74,12 +74,12 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Tiêu đề</label>
-                                                <input class="form-control" name="TieuDe" rows="5" placeholder="Hãy nhập tiêu đề"  value="{{$tintuc->TieuDe}}" />
+                                                <input class="form-control" name="TieuDe" rows="5" placeholder="Hãy nhập tiêu đề"  value="{{$tintuc->TieuDe}}" required />
                                             </div>
                                            
                                             <div class="form-group col-md-12">
                                                 <label>Nội dung</label>
-                                                    <textarea class="form-control" name="NoiDung"rows="15">{{$tintuc->NoiDung}}</textarea>
+                                                    <textarea class="form-control" name="NoiDung"rows="15" required>{{$tintuc->NoiDung}}</textarea>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <p><label>Hình ảnh</label></p>

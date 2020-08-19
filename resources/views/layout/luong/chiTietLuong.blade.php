@@ -40,11 +40,11 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-2">
                                                 <label for="luong_tong">Tổng Lương</label>
-                                                <div class="form-control" name="luong_tong">{{$luong->tong_luong}}</div>
+                                                <div class="form-control" name="luong_tong">{{number_format($luong->tong_tien_luong)}}</div>
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="so_gio_lam_viec">Số Giờ Làm Việc Trong Tháng</label>
-                                                <div class="form-control" name="so_gio_lam_viec">{{$luong->so_gio_lam_viec}}</div>
+                                                <div class="form-control" name="so_gio_lam_viec">{{round($luong->so_gio_lam_viec,2)}}</div>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -54,25 +54,25 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Tiền Lương Thêm Tương Ứng</label>
-                                                <div class="form-control" name="">{{$tongtangca}}</div>
+                                                <div class="form-control" name="">{{number_format($tientangca)}}</div>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-3">
                                                 <label for="thue_thu_nhap">Thuế Thu Nhập Phải Đóng</label>
-                                                <div class="form-control" name="thue_thu_nhap">{{$luong->thue_thu_nhap}}</div>
+                                                <div class="form-control" name="thue_thu_nhap">{{number_format($luong->thue_thu_nhap)}}</div>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="thue_bao_hiem">Thuế Bảo Hiểm</label>
-                                                <div class="form-control" name="thue_bao_hiem">{{$luong->thue_bao_hiem}}</div>
+                                                <div class="form-control" name="thue_bao_hiem">{{number_format($luong->thue_bao_hiem)}}</div>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="luong_thuong">Tiền Thưởng</label>
-                                                <div class="form-control" name="luong_thuong">{{$thuong}}</div>
+                                                <div class="form-control" name="luong_thuong">{{number_format($thuong)}}</div>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="ky_luat">Tiền Phạt</label>
-                                                <div class="form-control" name="ky_luat">{{$kyluat}}</div>
+                                                <div class="form-control" name="ky_luat">{{number_format($kyluat)}}</div>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -80,10 +80,10 @@
                                                 <label for="luong_nhan">Lương Nhận</label>
                                                 <div class="form-control" name="luong_nhan" aria-describedby="helper">
                                                     @if(isset($luong->tong_tien_luong) && isset($luong->thue_thu_nhap))
-                                                        {{$luong->tong_tien_luong - $luong->thue_thu_nhap}}
+                                                        {{number_format($luongnhanduoc)}}
                                                     @endif
                                                 </div>
-                                                <small id="helper" class="text-muted">Cập nhật lần cuối vào : {{$luong->updated_at}}</small><div>
+                                                <small id="helper" class="text-muted">Cập nhật lần cuối vào : {{date('H:i:s d/m/Y',strtotime($luong->updated_at))}}</small><div>
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                             {{-- <button class="btn btn-primary" onclick="windows.location.href='{{url('gi')}}'">Cập Nhật</button>
@@ -98,6 +98,8 @@
                 <!-- ============================================================== -->
                 <!-- end validation form -->
                 <!-- ============================================================== -->
+            </div>
+        </div>
             </div>
     </div>
 </div>

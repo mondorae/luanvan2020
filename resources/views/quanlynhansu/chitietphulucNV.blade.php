@@ -92,7 +92,7 @@
                                                 <td>
                                                     {{-- <a class="btn btn-primary" href="{{url('private/hopdong/'.$hd->id_nhanvien)}}" title="Xem"> <i class="fa fa-eye"></i> Xem</a> --}}
                                                   
-                                                    <a class="btn btn-primary" href="{{url('private/lapphuluc/pdf/'.$chitiet->id_phuluc)}}">Xuất file pdf!!</a>
+                                                    <a class="btn btn-primary" href="{{url('private/lapphuluc/pdf/'.$phuluc->id_phuluc)}}">Xuất file pdf!!</a>
                                                     <a class="btn btn-warning" href="" title="Sửa"> <i class="fa fa-edit"></i> Sửa</a>      
                                                     <a class="btn btn-danger" href="" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân sự này không?');" title="Xóa"> <i class="fa fa-trash"></i> Xóa</a></td>   
                                             </tr>

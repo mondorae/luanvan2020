@@ -7,15 +7,15 @@
 			<div class="row m-0 p-0">
 				<div class="col-md-4">
 					<div class="contact_left">
-						<h3>Đại học Công nghệ Sài Gòn</h3>
+						<h3>CÔNG TY: {{$thongtinchinh->ten_cong_ty}}</h3>
 						<p class="contact_address">
-							<i class="fas fa-location-arrow"></i> 180 Đường Cao Lỗ, Phường 4, Quận 8, Hồ Chí Minh
+							<i class="fas fa-location-arrow mr-2"></i> Địa chỉ: {{$thongtinchinh->dia_chi}}
 						</p>
-						<a href="tel:+0937084675" class="contact__link d-block">
-							<i class="fas fa-phone"></i>0365998998
+						<a href="tel:{{$thongtinchinh->sdt}}" class="contact__link d-block">
+							<i class="fas fa-phone mr-2"></i>Số điện thoại: {{$thongtinchinh->sdt}}
 						</a>
-						<a href="mailto:hienphukien007@gmail.com" class="contact__link d-block">
-							<i class="fas fa-envelope"></i>ahn.krb@gmail.com
+						<a href="mailto:{{$thongtinchinh->mail}}" class="contact__link d-block">
+							<i class="fas fa-envelope mr-2"></i>Email: {{$thongtinchinh->mail}}
 						</a>
 					</div>
 				</div>
@@ -23,23 +23,18 @@
 					<div class="contact_right" style="    margin-bottom: 25px;">
 						<h3>Liên hệ chúng tôi</h3>
 						<span>Hãy liên hệ với chúng tôi nếu bạn cần giúp đỡ</span>
-						<form>
-							<div class="form_contact row" style="padding: 15px;">
-								<label for="name"class="col-sm-2">Họ và tên: </label>
-								<div class="col-sm-10 m-0">
-									<input type="text"  class="form-control" value="" placeholder="Nhập họ tên của bạn...">
-								</div>
-							</div>
+						<form action="https://formspree.io/ahn.krb@gmail.com" method="POST">
+							
 							<div class="form_contact row" style="padding: 15px;">
 								<label for="Email"class="col-sm-2">Email: </label>
 								<div class="col-sm-10 m-0">
-									<input type="text"  class="form-control" value="" placeholder="Nhập email của bạn..." style="    margin-bottom: 10px;">
+									<input type="text" name="_replyto" class="form-control" value="" placeholder="Nhập email của bạn..." style="    margin-bottom: 10px;">
 								</div>
 							</div>
 							<div class="form_contact row" style="padding: 15px;">
 								<label for="Content"class="col-sm-2">Nội dung </label>
 								<div class="col-sm-10 m-0" style="padding: 15px;">
-									<input type="text" class="form-control" value="" placeholder="Nội dung của bạn..." style="height: 80px;margin-bottom: 10px;">
+									<input type="text" name="message" class="form-control" value="" placeholder="Nội dung của bạn..." style="height: 80px;margin-bottom: 10px;">
 								</div>
 							</div>
 							<div class="btn_contact" style="padding: 15px;">

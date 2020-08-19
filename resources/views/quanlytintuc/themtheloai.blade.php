@@ -40,7 +40,7 @@
                                 {{session('thongbao')}}
                                 </div>
                             @endif
-                        <form class="needs-validation" method="POST" action="{{url('private/theloai/them')}}" novalidate>
+                        <form class="needs-validation" method="POST" action="{{url('private/theloai/them')}}" >
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -50,7 +50,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-8">
                                                 <label>Tên thể loại</label>
-                                                 <input type="text" class="form-control" name="Ten" placeholder="Nhập tên thể loại" />
+                                                 <input type="text" class="form-control" name="Ten" placeholder="Nhập tên thể loại" required/>
                                             </div>
                                            
                                         </div>

@@ -112,7 +112,7 @@
                                         </div>
                                           </div>    
                                           @endif
-                                        </div>
+                                    </div>
                                       
 
 
@@ -195,7 +195,7 @@
                                             
                                         </div>
                                         @else
-                                        <h5 class="card-header mb-3 " style="color:red;">Bạn chưa có thông tin gia đình!! Vui lòng bổ xung thông tin</h5>
+                                        <h5 class="card-header mb-3 " style="color:red;">Chưa có thông tin gia đình!</h5>
                                     
                                         @endif
                                       </div>
@@ -268,8 +268,8 @@
                                     </div>
                                   </div> 
                                     <div id="menu4" class="tab-pane fade">
-                                        @if(isset($phuluc))          
-                                        @if($phuluc->id_loaiphuluc==2)
+                                        
+                                        @if(isset($phuluc))
                                         <p style="font-size: 16px;color: black; ">Vị trí làm việc được thay đổi vào ngày: {{date('d-m-Y',strtotime($phuluc->tbl_chitietphuluc->ngay_bat_dau))}}</p>
                                         <p style="font-size: 16px;color: black; " >Thông tin vị trí cũ tại công ty</p>
                                         <div class="form-row mb-3">
@@ -307,8 +307,8 @@
                                               </div>
                                             
                                         </div>
-                                        @endif
                                         @else
+                                        
                                         
                                         <div class="form-row mb-3">
                                             
@@ -329,8 +329,7 @@
                                         </div>
                                    
                                         
-                                    }
-                                }
+                                   
                                      @endif   
                                      
                                         
@@ -342,7 +341,7 @@
                         </div>
                         
                     </div>
-                    <a class="btn btn-primary mr-5 " href="{{url('private/suathongtin/'.Auth::user()->id_nhanvien)}}">Sửa đổi thông tin</a>
+                    <a class="btn btn-primary mr-5 " href="{{url('private/suathongtin/'.$nhanvien->id_nhanvien)}}">Sửa đổi thông tin</a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- end validation form -->

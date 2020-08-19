@@ -16,4 +16,7 @@ class tbl_chucvu extends Model
     public function tbl_hosonhanvien(){
         return $this->hasMany('App\tbl_hosonhanvien','id_chucvu','id_hosonhanvien');
     }
+    public function tbl_permissions(){
+        return $this->belongsToMany('App\tbl_permissions');
+    }
 }

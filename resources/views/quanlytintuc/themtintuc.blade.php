@@ -24,7 +24,7 @@
                 <!-- ============================================================== -->
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card">
-                        <h5 class="card-header">Thêm tin tức mới</h5>
+
                        
                             
                         <div class="card-body">
@@ -39,7 +39,7 @@
                             <div class="alert alert-success mt-3">
                             {{session('thongbao')}} </div>
                             @endif
-                        <form class="needs-validation" method="POST" action="{{url('private/tintuc/them')}}"  enctype="multipart/form-data" novalidate>
+                        <form class="needs-validation" method="POST" action="{{url('private/tintuc/them')}}"  enctype="multipart/form-data" >
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -50,8 +50,8 @@
                                             
                                             <div class="form-group col-md-12">
                                                 <label>Thể loại</label>
-                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;">
-                                                    <option value="0">Chọn thể loại</option>
+                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;" required>
+                                                    <option value="">Chọn thể loại</option>
                                                     @foreach($theloai as $tl)
                                                     <option value="{{$tl->id}}">{{$tl->Ten}}</option>
                                                      @endforeach
@@ -59,8 +59,8 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Loại tin</label>
-                                                <select class="form-control" name="LoaiTin" style="-webkit-appearance: auto;">
-                                                    <option value="0">Chọn loại tin</option>
+                                                <select class="form-control" name="LoaiTin" style="-webkit-appearance: auto;" required>
+                                                    <option value="">Chọn loại tin</option>
                                                     @foreach($loaitin as $lt)
                                                     <option value="{{$lt->id}}">{{$lt->Ten}}</option>
                                                     @endforeach
@@ -68,12 +68,12 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Tiêu đề</label>
-                                                <input class="form-control" name="TieuDe" rows="5" placeholder="Hãy nhập tiêu đề"   />
+                                                <input class="form-control" name="TieuDe" rows="5" placeholder="Hãy nhập tiêu đề"  required />
                                             </div>
                                            
                                             <div class="form-group col-md-12">
                                                 <label>Nội dung</label>
-                                                    <textarea class="form-control" name="NoiDung" rows="15"></textarea>
+                                                    <textarea class="form-control" name="NoiDung" rows="15" required></textarea>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Hình ảnh</label>

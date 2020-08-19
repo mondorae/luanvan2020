@@ -8,6 +8,7 @@ use App\tbl_luuykien;
 use App\tbl_tangca;
 use App\tbl_phongban;
 use App\tbl_hosonhanvien;
+use App\tbl_anhykien;
 use Auth;
 class YKienController extends Controller
 {
@@ -19,7 +20,8 @@ class YKienController extends Controller
     public function getChiTietYK($id_luuykien){
         $ykien = tbl_luuykien::find($id_luuykien);
         $nguoilamdon = tbl_hosonhanvien::find($ykien->id_nhanvien);
-        return view('layout.ykien.chitietYK',compact('ykien', 'nguoilamdon'));    
+        $hinhanh=tbl_anhykien::where('id_luuykien',$id_luuykien)->get();
+        return view('layout.ykien.chitietYK',compact('ykien', 'nguoilamdon','hinhanh'));    
     }
 
     // public function getDuyetYK($id){           
@@ -46,11 +48,16 @@ class YKienController extends Controller
                 $ykien->nguoi_duyet_2 = Auth::user()->tbl_hosonhanvien->ho_ten;
                 // $ykien->chuc_vu_2 = Auth::user()->tbl_hosonhanvien->tbl_chucvu->ten_chuc_vu;  
                 
-                if($ykien->id_ykien == 9 || $ykien->id_ykien == 10)
+                if($ykien->id_ykien == 9 || $ykien->id_ykien == 10)     //khen thuong & ki luat
                 {
-                    $ykien->gia_tri == $request->gia_tri; 
+                    $ykien->gia_tri == $request->gia_tri;
+                    $dexuat = tbl_hosonhanvien::where('ho_ten','like',$request->nguoi_de_xuat)->first();
+                    $ykien = tbl_luuykien::find($id_luuykien);
+                    $ykien->nguoi_huong = $dexuat->ho_ten;
+                    $ykien->chuc_vu_2 = $dexuat->tbl_chucvu->tbl_phongban->ten_phong_ban."-".$dexuat->tbl_chucvu->ten_chuc_vu;
+                    $ykien->save();
                 }
-                if($ykien->id_ykien == 7)
+                if($ykien->id_ykien == 7)                               //Tăng ca 
                 {
                     $tangca = tbl_tangca::where('id_nhanvien', $ykien->id_nhanvien)
                         ->where('check_in','like', date('Y-m-d',strtotime($ykien->ngay_bat_dau)).'%')
@@ -67,7 +74,19 @@ class YKienController extends Controller
                     $bangluong->tong_tien_luong += ($ykien->thoi_gian_nghi*$giolamviec);
                     $bangluong->save();
                     $nhanvien->save();
-                }   
+                }
+                if($ykien->id_ykien == 11){          //Nghỉ việc
+                    $ykien = tbl_luuykien::find($id_luuykien);   
+                    $nhanvien=tbl_hosonhanvien::find($ykien->id_nhanvien);
+                    $quyetdinh=new tbl_quyetdinhthoiviec;
+                    $quyetdinh->loai = 2;
+                    $quyetdinh->noi_dung = $ykien->ly_do;
+                    $quyetdinh->ngay_quyet_dinh = date('Y-m-d H:i:s');
+                    $quyetdinh->ngay_nghi_viec = $ykien->ngay_bat_dau;
+                    $quyetdinh->nguoi_lap_quyet_dinh = Auth::user()->tbl_hosonhanvien->ho_ten;
+                    $quyetdinh->id_nhanvien = $ykien->id_nhanvien;
+                    $quyetdinh->save();
+                }
                 $ykien->save();
                 return redirect('private/ykien/danhsach')->with('thongbao','Đã Duyệt');
             }  
@@ -75,12 +94,19 @@ class YKienController extends Controller
             $ykien = tbl_luuykien::find($id_luuykien);
             $ykien->gia_tri = $request->gia_tri;
             $ykien->ly_do_tu_choi = $request->ly_do_tu_choi;
-            if($ykien->trang_thai == 1){
+            if($ykien->trang_thai == 1){        //Giam Doc duyet
                 $ykien->nguoi_duyet_2 = Auth::user()->tbl_hosonhanvien->ho_ten;
             }
-            else{
+            else{           //Truong Phong Duyet
                 $ykien->nguoi_duyet_1= Auth::user()->tbl_hosonhanvien->ho_ten;
                 $ykien->chuc_vu_1 = Auth::user()->tbl_hosonhanvien->tbl_chucvu->ten_chuc_vu;
+            }
+            if($ykien->id_ykien == 7){
+                $tangca = tbl_tangca::where('id_nhanvien', $ykien->id_nhanvien)
+                        ->where('check_in','like', date('Y-m-d',strtotime($ykien->ngay_bat_dau)).'%')
+                        ->first();
+                    $tangca->ghi_nhan = -1;
+                    $tangca->save();
             }
             $ykien->trang_thai = -1;
             $ykien->save();
@@ -92,49 +118,50 @@ class YKienController extends Controller
     public function getThemYK(){
         $loaiykien = tbl_ykien::all();
         $phongban = tbl_phongban::all();
-        return view('layout.ykien.themYK',compact('loaiykien','phongban'));
+        $chucnang = array();
+        foreach($loaiykien as $lyk){
+            $strToArr = explode(',',$lyk->chi_tiet);
+                for($i=0;$i<count($strToArr);$i++){
+                if($strToArr[$i] != null){
+                    //echo $strToArr[$i]."sdadas day la i ".$i."</br>";
+                    //$chucnang[$j] = $chucnang[$j]." ".$strToArr[$i];
+                    if(!isset($chucnang[$strToArr[$i]])){
+                        $chucnang[$strToArr[$i]]=" ".$lyk->id_ykien;
+                        }else
+                            $chucnang[$strToArr[$i]] = $chucnang[$strToArr[$i]]." ".$lyk->id_ykien;
+                    }
+                }
+        }   
+        // foreach($thu as $t){
+        //     //echo "</br>".$t->chi_tiet;
+        //     $array_ne = explode(',',$t->chi_tiet);
+        //     for($i=0;$i<count($array_ne);$i++){
+        //         // echo "</br>".$array_ne[$i];
+        //         if($array_ne[$i] != null){
+        //             echo "ý kiến số ".$dem." có nội dung ".$array_ne[$i]."</br>";
+        //         }else echo "ý kiến số ".$dem." không có nội dung ".$i."</br>";
+        //     }$dem++;
+        // }
+        return view('layout.ykien.themYK',compact('loaiykien','phongban','chucnang'));
     }
 
     public function postThemYK(Request $request){
         $user = Auth::user();
         $ykien = new tbl_luuykien;
-        if($request->id_ykien == 1){        //Nghỉ phép
+        // if($request->id_ykien == 1){        //Nghỉ phép
+        //     $ykien->id_ykien = $request->id_ykien;
+        //     $ykien->ly_do = $request->ly_do; 
+        //     $ykien->thoi_gian_nghi = $request->thoi_gian_nghi;
+        //     $ykien->ngay_bat_dau = $request->ngay_bat_dau;
+        //     $ykien->id_nhanvien = $user->id_nhanvien;
+        // }
+        if($request->id_ykien == 2){        //Vợ Sinh Con  db 1
             $ykien->id_ykien = $request->id_ykien;
-            $ykien->ly_do = $request->ly_do; 
-            $ykien->thoi_gian_nghi = $request->thoi_gian_nghi;
-            $ykien->ngay_bat_dau = $request->ngay_bat_dau;
-            $ykien->id_nhanvien = $user->id_nhanvien;
-        }
-        if($request->id_ykien == 2){        //Vợ Sinh Con   
-            $ykien->id_ykien = $request->id_ykien;
             $ykien->id_nhanvien = $user->id_nhanvien;
             $ykien->ly_do = $request->ly_do; 
             $ykien->ngay_bat_dau = $request->ngay_bat_dau;
-            // if($request->truong_hop == 1){              //Sinh Thường 1 con                                  Đống trường hợp này bổ sung sau khi sinh đẻ => cập nhật sau cùng bằng chứng
-            //     $ykien->thoi_gian_nghi = 5;
-            // }
-            // else if($request->truong_hop == 2){         //Phải phẫu thuật hoặc sinh con dưới 32 tuần tuổi
-            //     $ykien->thoi_gian_nghi = 7;
-            // }
-            // else if($request->truong_hop == 3){         //Sinh đôi
-            //     $ykien->thoi_gian_nghi = 10;
-            // }
-            // else if($request->truong_hop == 4){         //Sinh ba
-            //     $ykien->thoi_gian_nghi = 11;
-            // }
-            // else if($request->truong_hop == 5){         //Sinh tư
-            //     $ykien->thoi_gian_nghi = 12;
-            // }
-            // else if($request->truong_hop == 5){         //Sinh năm trở lên
-            //     $ykien->thoi_gian_nghi = 13;
-            // }
-            // else if($request->truong_hop == 6){         //Sinh đôi phải phẫu thuật
-            //     $ykien->thoi_gian_nghi = 14;
-            // }
-            // $ykien->thoi_gian_nghi = $request->thoi_gian_nghi_them;
-            // $ykien->minh_chung = 
         }
-        if($request->id_ykien == 3){        //Nghỉ việc riêng
+        else if($request->id_ykien == 3){        //Nghỉ việc riêng db 2
             $ykien->id_ykien = $request->id_ykien;
             $ykien->id_nhanvien = $user->id_nhanvien;
             $ykien->ly_do = $request->ly_do; 
@@ -146,7 +173,7 @@ class YKienController extends Controller
             }
             // $ykien->minh_chung = 
         }
-        if($request->id_ykien == 4){        //Bệnh Tật
+        else if($request->id_ykien == 4){        //Bệnh Tật db 3
             $ykien->id_ykien = $request->id_ykien;
             $ykien->id_nhanvien = $user->id_nhanvien;
             $ykien->ly_do = $request->ly_do; 
@@ -158,19 +185,19 @@ class YKienController extends Controller
             }
             // $ykien->minh_chung = 
         }
-        if($request->id_ykien == 5){        //Ứng lương
+        else if($request->id_ykien == 5){        //Ứng lương db 4
             $ykien->id_ykien = $request->id_ykien;
             $ykien->ly_do = $request->ly_do;
             $ykien->gia_tri = $request->gia_tri;    //Xét lương tháng không được quá 50% lương trong tháng
             $ykien->id_nhanvien = $user->id_nhanvien;
         }
-        if($request->id_ykien == 6){        //Tăng lương
-            $ykien->id_ykien = $request->id_ykien;
-            $ykien->ly_do = $request->ly_do;
-            //$ykien->gia_tri = $request->gia_tri;
-            $ykien->id_nhanvien = $user->id_nhanvien;
-        }
-        if($request->id_ykien == 7){        //Tăng ca
+        // if($request->id_ykien == 6){        //Tăng lương
+        //     $ykien->id_ykien = $request->id_ykien;
+        //     $ykien->ly_do = $request->ly_do;
+        //     //$ykien->gia_tri = $request->gia_tri;
+        //     $ykien->id_nhanvien = $user->id_nhanvien;
+        // }
+        else if($request->id_ykien == 7){        //Tăng ca db 5
             $ykien->id_ykien = $request->id_ykien;
             $ykien->ly_do = $request->ly_do;
             $ykien->id_nhanvien = $user->id_nhanvien;
@@ -179,33 +206,48 @@ class YKienController extends Controller
             $tangca = new tbl_tangca;
             $tangca->id_nhanvien = $user->id_nhanvien;
             $tangca->check_in = $request->ngay_bat_dau;     //ngày mở form điểm danh
+            $tangca->ly_do = $request->ly_do;
             $tangca->save();
         }
-        if($request->id_ykien == 8){        //Chuyển Công tác
+        else if($request->id_ykien == 8){        //Chuyển Công tác db 6
             $ykien->id_ykien = $request->id_ykien;
             $ykien->id_chucvu = $request->chuc_vu;
             $ykien->id_phongban = $request->phong_ban;
             $ykien->ly_do = $request->ly_do;
             //chưa có ý tưởng
         }
-        if($request->id_ykien == 9){        //Khen thưởng
+        // if($request->id_ykien == 9){        //Khen thưởng
+        //     $ykien->id_ykien = $request->id_ykien;
+        //     $ykien->ly_do = $request->ly_do;
+        //     $ykien->nguoi_huong = $request->nguoi_huong;
+        //     $ykien->id_nhanvien = $user->id_nhanvien;
+        // }
+        // if($request->id_ykien == 10){        //Kỉ luật
+        //     $ykien->id_ykien = $request->id_ykien;
+        //     $ykien->ly_do = $request->ly_do;
+        //     $ykien->nguoi_huong = $request->nguoi_huong;
+        //     $ykien->id_nhanvien = $user->id_nhanvien;
+        // }
+        // if($request->id_ykien == 11){        //Khác
+        //     $ykien->id_ykien = $request->id_ykien;
+        //     $ykien->ly_do = $request->ly_do;
+        //     $ykien->id_nhanvien = $user->id_nhanvien;
+        // }
+        else if($request->id_ykien == 11){      //nghỉ việc db 7
             $ykien->id_ykien = $request->id_ykien;
             $ykien->ly_do = $request->ly_do;
+            $ykien->ngay_bat_dau = $request->ngay_bat_dau;
+        }
+        else{
+            $ykien->id_ykien = $request->id_ykien;
             $ykien->nguoi_huong = $request->nguoi_huong;
-            $ykien->id_nhanvien = $user->id_nhanvien;
+            $ykien->ly_do = $request->id_ykien;
+            $ykien->gia_tri = $request->gia_tri;
+            $ykien->thoi_gian_nghi = $request->thoi_gian_nghi;
+            $ykien->ngay_bat_dau = $request->ngay_bat_dau;
+            $ykien->id_nhanvien=$user->id_nhanvien;
+            $ykien->nop_minh_chung = $request->nop_minh_chung; //Nộp minh chứng bổ sung sau
         }
-        if($request->id_ykien == 10){        //Kỉ luật
-            $ykien->id_ykien = $request->id_ykien;
-            $ykien->ly_do = $request->ly_do;
-            $ykien->nguoi_huong = $request->nguoi_huong;
-            $ykien->id_nhanvien = $user->id_nhanvien;
-        }
-        if($request->id_ykien == 11){        //Khác
-            $ykien->id_ykien = $request->id_ykien;
-            $ykien->ly_do = $request->ly_do;
-            $ykien->id_nhanvien = $user->id_nhanvien;
-        }
-        //Thêm người gửi (mặc định là trưởng phòng của các phòng ban tương ứng)
         $ykien->save();
         return redirect('private/ykien/them')->with('thongbao','Đã Gửi Ý Kiến');
         // $ykien->id_ykien = $request->id_ykien;
@@ -277,6 +319,18 @@ class YKienController extends Controller
 
 
     public function testtime(){
+        // $thu = tbl_ykien::all();
+        // $dem = 0;
+        // foreach($thu as $t){
+        //     //echo "</br>".$t->chi_tiet;
+        //     $array_ne = explode(',',$t->chi_tiet);
+        //     for($i=0;$i<count($array_ne);$i++){
+        //         // echo "</br>".$array_ne[$i];
+        //         if($array_ne[$i] != null){
+        //             echo "ý kiến số ".$dem." có nội dung ".$array_ne[$i]."</br>";
+        //         }else echo "ý kiến số ".$dem." không có nội dung ".$i."</br>";
+        //     }$dem++;
+        // }
         // $test = getMACAddr();
         // echo $test;
         // echo "cho Dat";
@@ -309,21 +363,21 @@ class YKienController extends Controller
         // }
         // else echo "lố rồi brpp"
         //;
-        $luuykien = tbl_luuykien::where('id_nhanvien', Auth::user()->id_nhanvien)
-        ->whereMonth('ngay_bat_dau',date('m'))
-        ->where('trang_thai',1)
-        ->where(function($q){
-            $q->where('id_ykien',9)
-            ->orwhere('id_ykien',10)
-            ->orwhere('id_ykien',5);
-        })        
-        ->get();
-        foreach($luuykien as $lyk)
-        {
-            echo "</br> Mã Nhân viên:".$lyk->id_nhanvien;
-            echo "</br> Trạng Thái:".$lyk->trang_thai;
-            echo "</br> Loại ý kiến:".$lyk->tbl_ykien->loai_y_kien;
-        }
+        // $luuykien = tbl_luuykien::where('id_nhanvien', Auth::user()->id_nhanvien)
+        // ->whereMonth('ngay_bat_dau',date('m'))
+        // ->where('trang_thai',1)
+        // ->where(function($q){
+        //     $q->where('id_ykien',9)
+        //     ->orwhere('id_ykien',10)
+        //     ->orwhere('id_ykien',5);
+        // })        
+        // ->get();
+        // foreach($luuykien as $lyk)
+        // {
+        //     echo "</br> Mã Nhân viên:".$lyk->id_nhanvien;
+        //     echo "</br> Trạng Thái:".$lyk->trang_thai;
+        //     echo "</br> Loại ý kiến:".$lyk->tbl_ykien->loai_y_kien;
+        // }
         // $ykien = tbl_luuykien::find(34);
         // $tangca = tbl_tangca::where('id_nhanvien', $ykien->id_nhanvien)
         //                 ->where('check_in','like', date('Y-m-d',strtotime($ykien->ngay_bat_dau)).'%')

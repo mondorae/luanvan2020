@@ -24,12 +24,17 @@ class ChamCongController extends Controller
         $bangluong = tbl_bangluong::whereMonth('luong_thang',date('m'))
                 ->where('id_nhanvien',Auth::user()->id_nhanvien)
                 ->first();
+        $lichsu = tbl_chamcong::where('id_bangluong',$bangluong->id_bangluong)->get();
         $chamcong = tbl_chamcong::where('id_bangluong',$bangluong->id_bangluong)
                 ->where('check_in','like', date('Y-m-d').'%')
                 ->first();
                //var_dump($chamcong); exit;
-        $ngaynghi = getNgayNghi;
-        return view('layout.chamcong.frmchamcong', compact('chamcong','bangluong','ngaynghi'));
+        $tangca = tbl_tangca::where('id_nhanvien',Auth::User()->id_nhanvien)
+               ->where('check_in',date('Y-m-d'))
+               ->first();
+        $ngaynghi = getNgayNghi();
+        
+        return view('layout.chamcong.frmchamcong', compact('lichsu','chamcong','bangluong','ngaynghi','tangca'));
     }
 
     public function checkin(){
@@ -92,13 +97,17 @@ class ChamCongController extends Controller
                 ->where('ngay_bat_dau',date('Y-m-d'))
                 ->exists())
                 return redirect('private/chamcong')->with('thongbao','Không Có Tăng Ca Hôm Nay');
-        $tangca = tbl_tangca::where('id_nhanvien',Auth::user()->id_nhanvien)->first();
-        return view('layout.chamcong.frmtangca',compact('tangca'));
+        $tangca = tbl_tangca::where('id_nhanvien',Auth::user()->id_nhanvien)
+                ->orderBy('id_tangca','DESC')
+                ->first();
+        $lichsu = tbl_tangca::where('id_nhanvien',Auth::user()->id_nhanvien)->get();
+        return view('layout.chamcong.frmtangca',compact('tangca','lichsu'));
     }
     
     public function checkinTangCa(){
         $tangca = tbl_tangca::where('id_nhanvien',Auth::User()->id_nhanvien)
                 ->where('check_in',date('Y-m-d'))
+                ->orderBy('id_tangca','DESC')
                 ->first();
         $tangca->check_in = date('Y-m-d H:i:s');
         $tangca->save();
@@ -108,10 +117,16 @@ class ChamCongController extends Controller
     public function checkoutTangCa(){
         $tangca = tbl_tangca::where('id_nhanvien',Auth::User()->id_nhanvien)
                 ->where('check_in','like', date('Y-m-d').'%')
+                ->orderBy('id_tangca','DESC')
                 ->first();
         $tangca->thoi_gian_lam = (strtotime(date('Y-m-d H:i:s')) - strtotime($tangca->check_in)) / 3600;
         $min = ($tangca->thoi_gian_lam-intval($tangca->thoi_gian_lam))*60;
         $tangca->save();
         return redirect('private/chamcong/tangca')->with('thongbao','Đã checkout. Hôm nay bạn đã tăng ca được '.intval($tangca->thoi_gian_lam).' tiếng '.intval($min)." phút");       
+    }
+
+    public function getChiTietTangCa($id_tangca){
+        $tangca = tbl_tangca::where('id_tangca',$id_tangca)->first();
+        return view('layout.chamcong.chitietTangCa',compact('tangca'));
     }
 }

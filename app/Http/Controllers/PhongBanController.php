@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\tbl_phongban;
+use App\tbl_chucvu;
 
 class PhongBanController extends Controller
 {
@@ -12,6 +13,15 @@ class PhongBanController extends Controller
     }
 
     public function postThemPB(Request $request){
+        $this->validate($request,
+        ['ten_phong_ban'=>'unique:tbl_phongban',
+        'id_phongban'=>'unique:tbl_phongban',
+
+        ],
+        [
+            'ten_phong_ban.unique'=>'Tên phòng ban đã tồn tại.',
+            'id_phongban.unique'=>'Mã phòng ban tồn tại.',
+        ]);
         $phongban = new tbl_phongban;
         $phongban->id_phongban= $request->get('id_phongban');
         $phongban->ten_phong_ban= $request->get('ten_phong_ban');
@@ -26,8 +36,26 @@ class PhongBanController extends Controller
     }
 
     public function postSuaPB(Request $request, $id_phongban){
+        // if($request->ten_chuc_vu!=$chucvu->ten_chuc_vu){
+        //     $this->validate($request,
+        //         ['ten_chuc_vu'=>'unique:tbl_chucvu',
+    
+        //         ],
+        //         [
+        //             'ten_chuc_vu.unique'=>'Tên chức vụ đã tồn tại.',
+        //         ]);
+        //     }
         $phongban=tbl_phongban::find($id_phongban);
-        $phongban->id_phongban = $request->get('id_phongban');
+        if($request->ten_phong_ban!=$phongban->ten_phong_ban){
+        $this->validate($request,
+            ['ten_phong_ban'=>'unique:tbl_phongban',
+
+            ],
+            [
+                'ten_phong_ban.unique'=>'Tên phòng ban đã tồn tại.',
+            ]);
+        }
+       
         $phongban->ten_phong_ban = $request->get('ten_phong_ban');
         $phongban->save();
         return redirect('private/phongban/sua/'.$phongban->id_phongban)->with('thongbao','Sửa Thành Công');
@@ -36,42 +64,14 @@ class PhongBanController extends Controller
     public function getXoaPB($id_phongban){
         $phongban=tbl_phongban::find($id_phongban);
         //thêm điều kiện nếu trong phòng ban có chức vụ thì không được xóa
-        $phongban->delete();
-        return redirect('private/phongban/danhsach')->with('thongbao','Xóa Thành Công');
-    }
-    public function tesT(){
-        // $phongban ="DVC99";
-        // if($phongban[strlen($phongban)-1]<9)
-        //     $phongban[strlen($phongban)-1] = $phongban[strlen($phongban)-1]+1;
-        // else {
-        //     if($phongban[strlen($phongban)-2]<9){
-        //         $phongban[strlen($phongban)-2] = $phongban[strlen($phongban)-2]+1;
-        //         $phongban[strlen($phongban)-1]=0; 
-        //     }
-        //     else{
-        //         $phongban[strlen($phongban)-3] = $phongban[strlen($phongban)-3] + 1;
-        //         $phongban[strlen($phongban)-2]=0;
-        //         $phongban[strlen($phongban)-1]=0; 
-        //     }
-        // }
-        //  echo $phongban;
-        $phongban ="DVC009999";
-        var_dump(($phongban[strlen($phongban)-1]));
-        if($phongban[strlen($phongban)-1]<9)
-            $phongban[strlen($phongban)-1]= $phongban[strlen($phongban)-1]+1;
-        else {
-            // $phongban[strlen($phongban)-2]= $phongban[strlen($phongban)-2]+1;
-            // $phongban[strlen($phongban)-1]=0;
-            if($phongban[strlen($phongban)-2]<9){
-                        $phongban[strlen($phongban)-2] = $phongban[strlen($phongban)-2]+1;
-                        $phongban[strlen($phongban)-1]=0; 
-                    }
-                    else{
-                        $phongban[strlen($phongban)-3] = $phongban[strlen($phongban)-3] + 1;
-                        $phongban[strlen($phongban)-2]=0;
-                        $phongban[strlen($phongban)-1]=0; 
-                    }
+        $chucvu=tbl_chucvu::where('id_phongban',$id_phongban)->get();
+       
+        if($chucvu==null){
+            return redirect('private/phongban/danhsach')->with('thatbai','Không thể xóa, phòng ban đang tồn tại chức vụ!!');
         }
-         echo $phongban;
+
+        else
+            $phongban->delete();
+        return redirect('private/phongban/danhsach')->with('thongbao','Xóa Thành Công!');
     }
 }

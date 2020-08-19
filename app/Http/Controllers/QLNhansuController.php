@@ -21,8 +21,10 @@ use App\tbl_luuykien;
 use App\tbl_hoso;
 use App\tbl_phucap;
 use App\tbl_phuluc;
+use App\tbl_giadinh;
 use App\tbl_loaiphuluc;
 use App\tbl_chitietphuluc;
+use App\tbl_quyetdinhthoiviec;
 use PDF;
 
 class QLNhansuController extends Controller
@@ -35,20 +37,15 @@ class QLNhansuController extends Controller
         $phongban=tbl_phongban::all();
         $chucvu=tbl_chucvu::all();
         $ds_ho_so = tbl_hoso::all();
-        // foreach($ds_ho_so as $k => $v){
-        //     var_dump($k."-".$v);
-        // }
-        
-        
-        // exit;
         return view('quanlynhansu.laphosoNV',['dantoc'=>$dantoc,'tinh'=>$tinh,'phongban'=>$phongban,'chucvu'=>$chucvu,'ds_ho_so'=>$ds_ho_so]);
         
     }
     public function postThemnhanvien(Request $request){
         $demhoso=tbl_hosonhanvien::latest()->first();
+        
         $arrName = explode(".", $demhoso->id_nhanvien);      
         $so = array_pop($arrName)+1;
-
+        
         $hosonhanvien= new tbl_hosonhanvien;
         
         $hosonhanvien->ho_ten=$request->ho_ten;
@@ -84,7 +81,8 @@ class QLNhansuController extends Controller
         $lienhe= new tbl_lienhe;
         $lienhe->sdt_ca_nhan=$request->sdt_ca_nhan;
         $lienhe->sdt_nha=$request->sdt_nha;
-        $lienhe->email=$request->email;
+        $lienhe->email=$request->emailcanhan;
+        
         $lienhe->dia_chi_thuong_tru=$request->dia_chi_thuong_tru;
         $lienhe->id_tinh_thuong_tru=$request->tinh_thuong_tru;
         $lienhe->dia_chi_tam_tru=$request->dia_chi_tam_tru;
@@ -118,12 +116,198 @@ class QLNhansuController extends Controller
             'password'=> $pass,
         );
         
-        Mail::to($request->email)->send(new SendMail($data));
+        Mail::to($request->emailcanhan)->send(new SendMail($data));
 
 
         
-        return redirect('private/hopdong/nhanvien/'.$hosonhanvien->id_nhanvien)->with('thongbao','Bạn lập hố sơ thông tin nhân viên thành công, xin tiếp tục với lập hợp đồng lao động');
+        return redirect('private/laphopdong/'.$hosonhanvien->id_nhanvien)->with('thongbao','Bạn lập hố sơ thông tin nhân viên thành công, xin tiếp tục với lập hợp đồng lao động');
+    
+   
+    }
+    public function getHoSoNhanVien($id_nhanvien){
+        $ds_ho_so = tbl_hoso::all();
+        // $user = User::find($id);
+        $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        $giadinh=tbl_giadinh::where('id_nhanvien',$id_nhanvien)->first();
+        
+        $lienhe=tbl_lienhe::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
+        
+        $trinhdo=tbl_trinhdo::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
+        $user=User::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        
+        $hopdong=tbl_hopdong::where([['id_nhanvien',$id_nhanvien],['trang_thai','1']])->first();
+        if($hopdong==null){
+            return redirect('private/laphopdong/'.$id_nhanvien)->with('thongbao','Hồ sơ nhân viên chưa có hợp đồng, xin tiếp tục với lập hợp đồng lao động');
+        }
+        
+        $phuluc=tbl_phuluc::where([['id_hopdong',$hopdong->id_hopdong],['id_loaiphuluc','2']])->first();
+        if(isset($phuluc)){
+            return view('quanlynhansu.hosonhanvien',['nhanvien'=>$nhanvien,'lienhe'=>$lienhe,'trinhdo'=>$trinhdo,'giadinh'=>$giadinh,'ds_ho_so'=>$ds_ho_so,'user'=>$user,'phuluc'=>$phuluc]);
+        
+        }
+        return view('quanlynhansu.hosonhanvien',['nhanvien'=>$nhanvien,'lienhe'=>$lienhe,'trinhdo'=>$trinhdo,'giadinh'=>$giadinh,'ds_ho_so'=>$ds_ho_so,'user'=>$user]);
+    }
+    public function getSuaHoSoNhanVien($id_nhanvien){
+        $ds_ho_so = tbl_hoso::all();
+        $dantoc=tbl_dantoc::all();
+        $tinh=tbl_tinh::all();
+        $phongban=tbl_phongban::all();
+        $chucvu=tbl_chucvu::all();
+        $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        $giadinh=tbl_giadinh::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        
+        $lienhe=tbl_lienhe::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
+        
+        $trinhdo=tbl_trinhdo::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
+        $user=User::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
 
+        return view('quanlynhansu.suahosoNV',['nhanvien'=>$nhanvien,'ds_ho_so'=>$ds_ho_so,'dantoc'=>$dantoc,'tinh'=>$tinh,'lienhe'=>$lienhe,'trinhdo'=>$trinhdo,'giadinh'=>$giadinh,'phongban'=>$phongban,'chucvu'=>$chucvu,'user'=>$user]);
+    }
+    public function postSuaHoSoNhanVien(Request $request,$id_nhanvien){
+      
+        $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        
+        $giadinh=tbl_giadinh::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        $lienhe=tbl_lienhe::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        $trinhdo=tbl_trinhdo::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        $user=User::where('id_nhanvien',$nhanvien->id_nhanvien)->first();        
+        
+
+        $nhanvien->ngay_sinh=$request->ngay_sinh;
+        $nhanvien->gioi_tinh=$request->gioi_tinh;
+        $nhanvien->id_dantoc=$request->dan_toc;
+        $nhanvien->ton_giao=$request->ton_giao;
+        $nhanvien->so_cmnd=$request->so_cmnd;
+        $nhanvien->ngay_cap_cmnd=$request->ngay_cap_cmnd;
+        $nhanvien->noi_cap_cmnd=$request->noi_cap_cmnd;
+        $nhanvien->id_hoso=implode(",",$request->hoso);
+        
+        if($request->hasFile('Hinh')){
+
+            $file=$request->file('Hinh');
+
+            $name=$file->getClientOriginalName();
+            $Hinh=str_random(4)."_".$name;
+            while (file_exists("upload/arvarta/".$Hinh)) {
+               $Hinh=str_random(4)."_".$name;
+            }
+            $file->move("upload/arvarta",$Hinh);
+            $nhanvien->anh_dai_dien=$Hinh;
+        }
+        $nhanvien->id_chucvu=$request->chuc_vu;
+
+
+        $nhanvien->save();
+        
+ 
+        
+        $lienhe->sdt_ca_nhan=$request->sdt_ca_nhan;
+        $lienhe->sdt_nha=$request->sdt_nha;
+        $lienhe->email=$request->email_ca_nhan;
+        
+        // $lienhe->email_cong_ty=$request->email_cong_ty;
+        $lienhe->dia_chi_thuong_tru=$request->dia_chi_thuong_tru;
+        $lienhe->id_tinh_thuong_tru=$request->tinh_thuong_tru;
+        $lienhe->dia_chi_tam_tru=$request->dia_chi_tam_tru;
+        $lienhe->id_tinh_tam_tru=$request->tinh_tam_tru;
+
+        $trinhdo->muc_trinh_do=$request->muc_trinh_do;
+        $trinhdo->noi_dao_tao=$request->noi_dao_tao;
+        $trinhdo->nganh_dao_tao=$request->nganh_dao_tao;
+        $trinhdo->chuyen_nganh=$request->chuyen_nganh;
+        $trinhdo->nam_tot_nghiep=$request->nam_tot_nghiep;
+        $trinhdo->xep_loai=$request->xep_loai;
+        $trinhdo->chung_chi_khac=$request->chung_chi_khac;
+
+        if(isset($giadinh)){
+            $giadinh->ten_nguoi_than=$request->ten_nguoi_than;
+            $giadinh->cong_viec=$request->cong_viec;
+            $giadinh->sdt_di_dong=$request->sdt_di_dong;
+            $giadinh->moi_quan_he=$request->moi_quan_he;
+            $giadinh->dia_chi=$request->dia_chi;
+            $giadinh->email=$request->email;
+            $giadinh->save();
+        }
+        elseif($request->ten_nguoi_than!=null){
+            $giadinh=new tbl_giadinh;
+            $giadinh->ten_nguoi_than=$request->ten_nguoi_than;
+            $giadinh->cong_viec=$request->cong_viec;
+            $giadinh->sdt_di_dong=$request->sdt_di_dong;
+            $giadinh->moi_quan_he=$request->moi_quan_he;
+            $giadinh->dia_chi=$request->dia_chi;
+            $giadinh->email=$request->email;
+            $giadinh->id_nhanvien=$nhanvien->id_nhanvien;
+            $giadinh->save();
+        }
+        
+        
+        $user->name=$request->name;
+        
+        $user->email=$request->email;
+        $user->password=bcrypt($request->password);
+
+
+        $user->save();
+
+        $trinhdo->save();
+
+        $lienhe->save();
+        return redirect('private/quanly/thongtin/'.$id_nhanvien)->with('thongbao','Sửa thông tin thành công');
+
+    }
+
+    public function getXoaNhanvien($id_nhanvien){
+        try{
+        $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        $giadinh=tbl_giadinh::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        
+        $lienhe=tbl_lienhe::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        
+        $trinhdo=tbl_trinhdo::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        $user=User::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        $hopdong=tbl_hopdong::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
+        
+        
+        foreach($hopdong as $hd){
+            $phuluc=tbl_phuluc::where('id_hopdong',$hd->id_hopdong)->get();
+            
+            
+            
+        if($phuluc!=null){
+            foreach($phuluc as $pl){
+                
+                $chitiet=tbl_chitietphuluc::where('id',$pl->id_chitiet)->first();
+                
+                
+                $deletephuluc=tbl_phuluc::where('id_phuluc',$pl->id_phuluc)->first();
+                
+                $chitiet->delete();
+                $deletephuluc->delete();
+            }
+        }
+        
+        $deletehopdong=tbl_hopdong::where('id_hopdong',$hd->id_hopdong)->first();
+
+
+        $deletehopdong->delete();
+        
+        
+        }
+       
+        $user->delete();
+        $trinhdo->delete();
+        $lienhe->delete();
+        if(isset($giadinh)){
+        $giadinh->delete();
+        }
+
+        $nhanvien->delete();
+        return redirect('private/nhanvien/danhsach')->with('thongbao','Xóa Thành Công!');
+    }
+        catch (Exception $e) {
+            echo "Message: " . $e->getMessage();
+            
+        }
     }
 
     public function getLaphopdong($id_nhanvien){
@@ -139,6 +323,12 @@ class QLNhansuController extends Controller
         return view('quanlynhansu.laphopdongNV',['nhanvien'=>$nhanvien,'hopdong'=>$hopdong,'phucap'=>$phucap,'loaihd'=>$loaihd]);
     }
     public function postLaphopdong(Request $request,$id_nhanvien){
+        $demhopdong=tbl_hopdong::latest()->first();
+        
+        $arrName = explode("-", $demhopdong->id_hopdong);    
+        
+        $so = $arrName[0]+1;
+       
         $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
         $hopdong=tbl_hopdong::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
         foreach($hopdong as $hopdong){
@@ -150,9 +340,8 @@ class QLNhansuController extends Controller
     }
 
         $phucap=tbl_phucap::where('id_chucvu',$nhanvien->id_chucvu)->first();
-        $demhopdong=tbl_hopdong::count()+1;
         $hopdong=new tbl_hopdong;
-        $hopdong->id_hopdong=$demhopdong.'-HDLD-ABC';
+        $hopdong->id_hopdong=$so .'-HDLD-ABC';
         $hopdong->id_loaihopdong=$request->ten_hop_dong;
         $hopdong->ngay_bat_dau_hop_dong=$request->ngay_bat_dau_hop_dong;
         $hopdong->muc_luong_chinh=$request->muc_luong_chinh;
@@ -163,7 +352,7 @@ class QLNhansuController extends Controller
         $hopdong->id_nhanvien=$nhanvien->id_nhanvien;
         $hopdong->nguoi_laphd=Auth::user()->tbl_hosonhanvien->ho_ten;
         $hopdong->save();
-        return redirect('private/hopdong/nhanvien/'.$id_nhanvien);
+        return redirect('private/hopdong/nhanvien/'.$id_nhanvien)->with('thongbao','Lập hợp đồng thành công!!');
 
     }
 
@@ -190,7 +379,7 @@ class QLNhansuController extends Controller
         return $pdf->stream('hopdongNV.pdf');
         
     }
-
+    
     public function getChitiethopdong($id_hopdong){
         $hopdong=tbl_hopdong::where('id_hopdong',$id_hopdong)->first();
         $phuluc1=tbl_phuluc::where('id_hopdong',$id_hopdong)->first();
@@ -201,6 +390,7 @@ class QLNhansuController extends Controller
         return view('quanlynhansu.chitiethopdongNV',['hopdong'=>$hopdong,'phuluc'=>$phuluc]);
         }
         else
+        
         return view('quanlynhansu.chitiethopdongNV',['hopdong'=>$hopdong]);
 
     }
@@ -270,7 +460,7 @@ class QLNhansuController extends Controller
     }
     public function getPDFphuluc($id_phuluc){
         $phuluc=tbl_phuluc::where('id_phuluc',$id_phuluc)->first();
-        $chitiet=tbl_chitietphuluc::where('id_phuluc',$phuluc->id_phuluc)->first();
+        $chitiet=tbl_chitietphuluc::where('id',$phuluc->id_chitiet)->first();
         $hopdong=tbl_hopdong::where('id_hopdong',$phuluc->id_hopdong)->first();
 
 
@@ -297,6 +487,17 @@ class QLNhansuController extends Controller
         return $pdf->stream('phulucNV.pdf');
     }
     
+
+    public function getDSquyetdinh(){
+        $quyetdinh=tbl_quyetdinhthoiviec::all();
+        return view('quanlynhansu.danhsachquyetdinh',['quyetdinh'=>$quyetdinh]);
+    }
+
+   
+
+
+
+
     public function  getThoiviec(){
         $nhanvien=tbl_hosonhanvien::where('tinh_trang',1)->get();
         return view('quanlynhansu.quyetdinhthoiviec',['nhanvien'=>$nhanvien]);
@@ -306,20 +507,44 @@ class QLNhansuController extends Controller
         return view('quanlynhansu.quyetdinhthoiviecNV',['nhanvien'=>$nhanvien]);
     }
     public function  postThoiviecNV(Request $request,$id_nhanvien){
-        $nhanvien=tbl_hosonhanvien::where('tinh_trang',1)->get();
-         $user = Auth::user();
-        $ykien = new tbl_luuykien;
-        $ykien->id_ykien = 6;
-        $ykien->trang_thai=1;
-        $ykien->nguoi_duyet= $user->tbl_hosonhanvien->ho_ten; 
-        $ykien->ly_do = $request->ly_do;
-        $ykien->id_nhanvien = $id_nhanvien;
-        $ykien->nguoi_dua_y_kien = $user->tbl_hosonhanvien->ho_ten;
-        $ykien->save();
+        $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        $user = Auth::user();
+        $quyetdinh=new tbl_quyetdinhthoiviec;
+        $quyetdinh->noi_dung=$request->noi_dung;
+        $quyetdinh->ngay_quyet_dinh=$request->ngay_quyet_dinh;
+        $quyetdinh->ngay_nghi_viec=$request->ngay_nghi_viec;
+        $quyetdinh->loai=1;
+        $quyetdinh->nguoi_lap_quyet_dinh=$user->tbl_hosonhanvien->ho_ten;
+        $quyetdinh->id_nhanvien=$id_nhanvien;
+        $quyetdinh->save();
+        return redirect('private/quyetdinh/pdf/'.$id_nhanvien);
+    }
+    public function getPDFquyetdinh($id_nhanvien){
+        $quyetdinh=tbl_quyetdinhthoiviec::where('id_nhanvien',$id_nhanvien)->first();
 
-        $nv_tinhtrang=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();;
+        $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        $data['quyetdinh']=$quyetdinh;
+        $data['nhanvien']=$nhanvien;
+        $pdf = PDF::loadView('quanlynhansu.pdfquyetdinh', $data);
+        return $pdf->stream('quyetdinhNV.pdf');
+
+    }
+    public function getquyetdinh($id_nhanvien){
+        $quyetdinh=tbl_quyetdinhthoiviec::where('id_nhanvien',$id_nhanvien)->first();
+        $quyetdinh->delete();
+        $nv_tinhtrang=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
+        
         $nv_tinhtrang->tinh_trang=2;
+        $taikhoan=User::where('id_nhanvien',$id_nhanvien)->first();
+        $taikhoan->quyen=0;
+        $taikhoan->save();
         $nv_tinhtrang->save();
-        return redirect('private/quyetdinhthoiviec');
+        return redirect('private/nhanvien/2');
+    }
+    public function huyquyetdinh($id_nhanvien){
+        $quyetdinh=tbl_quyetdinhthoiviec::where('id_nhanvien',$id_nhanvien)->first();
+        $quyetdinh->delete();
+        
+        return redirect('private/danhsachquyetdinh');
     }
 }

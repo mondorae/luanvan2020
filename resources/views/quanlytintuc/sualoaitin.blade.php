@@ -39,7 +39,7 @@
                             @endif
                         <div class="card-body">
                            
-                        <form class="needs-validation" method="POST" action="{{url('private/loaitin/sua/'.$loaitin->id)}}" novalidate>
+                        <form class="needs-validation" method="POST" action="{{url('private/loaitin/sua/'.$loaitin->id)}}" >
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -50,7 +50,7 @@
                                             
                                             <div class="form-group col-md-12">
                                                 <label>Thể loại</label>
-                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;">
+                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;" required>
                                                     @foreach($theloai as $tl)
                                                     <option 
                                                     @if($loaitin->idTheLoai==$tl->id) 
@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Tên loại tin</label>
-                                                <input type="text" class="form-control" name="Ten" placeholder="Nhập tên loại tin" value="{{$loaitin->Ten}}" />
+                                                <input type="text" class="form-control" name="Ten" placeholder="Nhập tên loại tin" value="{{$loaitin->Ten}}" required/>
                                             </div>
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">

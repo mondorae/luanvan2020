@@ -47,6 +47,16 @@
                                         </div> -->
                                         <label for="loai_y_kien">Loại Ý Kiến / Đề Xuất</label>
                                         <textarea class="form-control" id="" name="loai_y_kien" placeholder="" value=""></textarea>
+                                        <div class="form-group">
+                                            <label>Các Điều kiện Kèm Theo Ý Kiến </label><br/>
+                                            <input type="checkbox" name="chi_tiet[]" value="1"> Nhân Viên Đề Xuất <br/>
+                                            <input type="checkbox" name="chi_tiet[]" value="2"> Lý Do <br/>
+                                            <input type="checkbox" name="chi_tiet[]" value="3"> Giá Tiền<br/>
+                                            <input type="checkbox" name="chi_tiet[]" value="4"> Số Ngày Nghỉ<br/>
+                                            <input type="checkbox" name="chi_tiet[]" value="5"> Ngày Bắt Đầu Nghỉ / Ngày Tăng Ca<br/>
+                                            <input type="checkbox" name="chi_tiet[]" value="6"> Nộp Minh Chứng<br/>
+                                            
+                                        </div>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <button class="btn btn-primary" type="submit">Lưu</button>
                                                 <button class="btn btn-default" type="reset">Reset</button>

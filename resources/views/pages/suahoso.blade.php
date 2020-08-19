@@ -27,7 +27,7 @@
                     <div class="card">
                         
                         <div class="card-body">
-                            <form class="needs-validation"  action="{{url('private/suathongtin/'.Auth::user()->id_nhanvien)}}" method="POST" enctype="multipart/form-data">
+                            <form class="needs-validation"  action="{{url('private/suathongtin/'.$nhanvien->id_nhanvien)}}" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <ul class="nav  mt-3 mb-4 card-header">
                                         {{-- <a class" data-toggle="tab" href="#home" >Thông Tin Chính</a> --}}
@@ -70,7 +70,7 @@
 
                                                         <div class="form-group col-md-6">
                                                             <label for="ngaysinh">Ngày Sinh</label>
-                                                            <input type="date" class="form-control" name="ngay_sinh" value="{{$nhanvien->ngay_sinh}}">
+                                                            <input type="date" class="form-control" name="ngay_sinh" value="{{$nhanvien->ngay_sinh}}" required>
                                                         </div>
                                                         <div class="form-group col-md-6 mb-3">
                                                             <label>Giới tính</label>
@@ -86,7 +86,7 @@
                                       
                                       <div class="form-group col-md-6">
                                         <label >Dân tộc</label>
-                                              <select name="dan_toc" class="form-control" style="-webkit-appearance: auto;">
+                                              <select name="dan_toc" class="form-control" style="-webkit-appearance: auto;" required>
                                                 @foreach($dantoc as $dt)
                                                 <option @if($nhanvien->id_dantoc==$dt->id_dantoc) {{"selected"}} @endif value="{{$dt->id_dantoc}}">{{$dt->ten_dan_toc}}</option>
                                                  @endforeach
@@ -108,7 +108,7 @@
                                           </div>
                                           <div class="form-group col-md-4">
                                               <label for="noicapcmnd">Nơi Cấp</label>
-                                              <input type="text" class="form-control" name="noi_cap_cmnd" placeholder="Nhập địa chỉ nơi cấp CMND" value="{{$nhanvien->noi_cap_cmnd}}">
+                                              <input type="text" class="form-control" name="noi_cap_cmnd" placeholder="Nhập địa chỉ nơi cấp CMND" value="{{$nhanvien->noi_cap_cmnd}}" required>
                                           </div>
                                         </div>
                                         </div>
@@ -122,25 +122,25 @@
                                         <div class="form-row mb-3">
                                             <div class="form-group col-md-4">
                                               <label for="sdt_ca_nhan">Số Điện Thoại Cá Nhân</label>
-                                              <input type="text" class="form-control" name="sdt_ca_nhan" placeholder="Nhập số điện thoại cá nhân" value="{{$lh->sdt_ca_nhan}}">
+                                              <input type="text" class="form-control" name="sdt_ca_nhan" placeholder="Nhập số điện thoại cá nhân" value="{{$lh->sdt_ca_nhan}}" required>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label >Số Điện Thoại Nhà</label>
-                                                <input type="text" class="form-control" name="sdt_nha" placeholder="Nhập số điện thoại nhà" value="{{$lh->sdt_nha}}">
+                                                <input type="text" class="form-control" name="sdt_nha" placeholder="Nhập số điện thoại nhà" value="{{$lh->sdt_nha}}" required>
                                               </div>
                                               <div class="form-group col-md-4">
                                                 <label for="email">Email Cá Nhân</label>
-                                                <input type="email" class="form-control" name="email" placeholder="Nhập email cá nhân" value="{{$lh->email}}">
+                                                <input type="email" class="form-control" name="email_ca_nhan" placeholder="Nhập email cá nhân" value="{{$lh->email}}" required>
                                               </div>
                                         </div>
                                         <div class="form-row mb-3">
                                             <div class="form-group col-md-3"> 
                                                 <label >Địa chỉ thường trú</label>
-                                                <input type="text" class="form-control mb-3" name="dia_chi_thuong_tru" placeholder="Nhập địa chỉ thường trú" value="{{$lh->dia_chi_thuong_tru}}" >
+                                                <input type="text" class="form-control mb-3" name="dia_chi_thuong_tru" placeholder="Nhập địa chỉ thường trú" value="{{$lh->dia_chi_thuong_tru}}"required >
                                             </div>
                                             <div class="form-group col-md-3"> 
                                                 <label >Tỉnh/ Thành phố</label>
-                                                <select name="tinh_thuong_tru" class="form-control" style="-webkit-appearance: auto;">
+                                                <select name="tinh_thuong_tru" class="form-control" style="-webkit-appearance: auto;" required>
                                                     @foreach($tinh as $t)
                                                         <option  @if($lh->id_tinh_thuong_tru==$t->id_tinh) {{"selected"}} @endif value="{{$t->id_tinh}}">{{$t->ten_tinh}}</option>
                                                     @endforeach
@@ -148,13 +148,13 @@
                                             </div>
                                             <div class="form-group col-md-3"> 
                                                 <label >Địa chỉ tạm trú</label>
-                                                <input type="text" class="form-control mb-3" name="dia_chi_tam_tru" placeholder="Nhập địa chỉ tạm trú" value="{{$lh->dia_chi_tam_tru}}" >
+                                                <input type="text" class="form-control mb-3" name="dia_chi_tam_tru" placeholder="Nhập địa chỉ tạm trú" value="{{$lh->dia_chi_tam_tru}}" required >
                                             </div>
                                             <div class="form-group col-md-3"> 
                                                 <label >Tỉnh/ Thành phố</label>
                                                 <select name="tinh_tam_tru" class="form-control" style="-webkit-appearance: auto;">
                                                     @foreach($tinh as $t)
-                                                    <option  @if($lh->id_tinh_tam_tru==$t->id_tinh) {{"selected"}} @endif value="{{$t->id_tinh}}">{{$t->ten_tinh}}</option>
+                                                    <option  @if($lh->id_tinh_tam_tru==$t->id_tinh) {{"selected"}} @endif value="{{$t->id_tinh}}" required>{{$t->ten_tinh}}</option>
                                                 @endforeach
                                                     </select>
                                             </div>
@@ -163,44 +163,81 @@
                                         <h3 style="color: blue;">Thông tin liên hệ gia đình:</h3>
                                       
                                      
-                                       
+                                       @if($giadinh!=null)
                                         <div class="form-row mb-3">
                                             
                                             <div class="form-group col-md-4 mb-3">
                                                 <label >Tên Người Thân</label>
-                                                <input type="text" class="form-control" name="ten_nguoi_than" placeholder="Nhập tên người thân" value="{{$giadinh->ten_nguoi_than}}">
+                                                <input type="text" class="form-control" name="ten_nguoi_than" placeholder="Nhập tên người thân" value="{{$giadinh->ten_nguoi_than}}" required>
                                             </div>
                                             <div class="form-group col-md-4 mb-3">
                                                 <label >Công việc</label>
-                                                <input type="text" class="form-control" name="cong_viec" placeholder="Nhập công việc người thân" value="{{$giadinh->cong_viec}}">
+                                                <input type="text" class="form-control" name="cong_viec" placeholder="Nhập công việc người thân" value="{{$giadinh->cong_viec}}" required>
                                                 
                                             </div>
                                             <div class="form-group col-md-4 mb-3">
                                                 <label >Số điện thoại</label>
-                                                <input type="text" class="form-control" name="sdt_di_dong" placeholder="Nhập số điện thoại người thân" value="{{$giadinh->sdt_di_dong}}">
+                                                <input type="text" class="form-control" name="sdt_di_dong" placeholder="Nhập số điện thoại người thân" value="{{$giadinh->sdt_di_dong}}" required>
                                               
                                             </div>
                                         </div>
                                         <div class="form-row mb-3">
                                             <div class="form-group col-md-4 mb-3">
                                                 <label >Mối Quan Hệ</label>
-                                                <input type="text" class="form-control" name="moi_quan_he" placeholder="Nhập mối quan hệ với người thân" value="{{$giadinh->moi_quan_he}}">
+                                                <input type="text" class="form-control" name="moi_quan_he" placeholder="Nhập mối quan hệ với người thân" value="{{$giadinh->moi_quan_he}}" required>
                                             </div>
                                             
                                             <div class="form-group col-md-4 mb-3">
                                                 <label >Nơi Ở</label>
-                                                <input type="text" class="form-control" name="dia_chi" placeholder="Nhập nơi ở hiện tại của người thân" value="{{$giadinh->dia_chi}}">
+                                                <input type="text" class="form-control" name="dia_chi" placeholder="Nhập nơi ở hiện tại của người thân" value="{{$giadinh->dia_chi}}" required>
                                                 
                                             </div>
                                             
                                              <div class="form-group col-md-4 mb-3">
                                                 <label >Email</label>
-                                                <input type="text" class="form-control" name="email" placeholder="Nhập email của người thân" value="{{$giadinh->email}}">
+                                                <input type="text" class="form-control" name="emailnguoithan" placeholder="Nhập email của người thân" value="{{$giadinh->email}}" required>
                                                
                                             </div>
                                             
                                         </div>
-                                       
+                                        @else
+                                        <div class="form-row mb-3">
+                                            
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label >Tên Người Thân</label>
+                                                <input type="text" class="form-control" name="ten_nguoi_than" placeholder="Nhập tên người thân" value="" required>
+                                            </div>
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label >Công việc</label>
+                                                <input type="text" class="form-control" name="cong_viec" placeholder="Nhập công việc người thân" value="" required>
+                                                
+                                            </div>
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label >Số điện thoại</label>
+                                                <input type="text" class="form-control" name="sdt_di_dong" placeholder="Nhập số điện thoại người thân" value="" required>
+                                              
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-3">
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label >Mối Quan Hệ</label>
+                                                <input type="text" class="form-control" name="moi_quan_he" placeholder="Nhập mối quan hệ với người thân" value=""required>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label >Nơi Ở</label>
+                                                <input type="text" class="form-control" name="dia_chi" placeholder="Nhập nơi ở hiện tại của người thân" value=""required>
+                                                
+                                            </div>
+                                            
+                                             <div class="form-group col-md-4 mb-3">
+                                                <label >Email</label>
+                                                <input type="text" class="form-control" name="emailnguoithan" placeholder="Nhập email của người thân" value="" required>
+                                               
+                                            </div>
+                                            
+                                        </div>
+                                       @endif
                                         
                                             
                                         </div>
@@ -220,11 +257,11 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                               <label for="sdt_ca_nhan">Nơi Đào Tạo</label>
-                                              <input type="text" class="form-control" name="noi_dao_tao" placeholder="Nhập nơi đào tạo" value="{{$td->noi_dao_tao}}">
+                                              <input type="text" class="form-control" name="noi_dao_tao" placeholder="Nhập nơi đào tạo" value="{{$td->noi_dao_tao}}" required>
                                             </div>
                                             <div class="form-group col-md-2"> 
                                                 <label >Xếp loại</label>
-                                                <select name="xep_loai" class="form-control" style="-webkit-appearance: auto;">
+                                                <select name="xep_loai" class="form-control" style="-webkit-appearance: auto;" required>
                                                     <option  @if($td->xep_loai=="Giỏi") {{"selected"}} @endif value="Giỏi" >Giỏi</option>
                                                     <option  @if($td->xep_loai=="Khá") {{"selected"}} @endif value="Khá">Khá</option>
                                                     <option  @if($td->xep_loai=="Trung Bình Khá") {{"selected"}} @endif value="Trung Bình Khá">Trung Bình Khá</option>
@@ -234,18 +271,18 @@
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label >Năm Tốt Nghiệp</label>
-                                                <input type="number" name="nam_tot_nghiep" class="form-control text-center" min="2010" max="2020" step="1" value="{{$td->nam_tot_nghiep}}" />
+                                                <input type="number" name="nam_tot_nghiep" class="form-control text-center" min="2010" max="2020" step="1" value="{{$td->nam_tot_nghiep}}" required/>
                                               </div>
                                             
                                         </div>
                                         <div class="form-row mb-3">
                                             <div class="form-group col-md-6">
                                                 <label >Ngành Đào Tạo</label>
-                                                <input type="text" class="form-control" name="nganh_dao_tao" placeholder="Nhập chuyên ngành đào tạo" value="{{$td->nganh_dao_tao}}">
+                                                <input type="text" class="form-control" name="nganh_dao_tao" placeholder="Nhập chuyên ngành đào tạo" value="{{$td->nganh_dao_tao}}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label >Chuyên Ngành</label>
-                                                <input type="text" class="form-control" name="chuyen_nganh" placeholder="Nhập chuyên ngành đào tạo" value="{{$td->chuyen_nganh}}">
+                                                <input type="text" class="form-control" name="chuyen_nganh" placeholder="Nhập chuyên ngành đào tạo" value="{{$td->chuyen_nganh}}" required>
                                             </div>
                                             
                                         </div>
@@ -262,12 +299,12 @@
 
                                       <div id="menu4" class="tab-pane fade">
                                         <div class="form-row mb-3">
-                                            <div class="form-group col-md-4 mb-3">
+                                            
                                                 @foreach ($user as $user)
                                             <div class="form-group col-md-4 mb-3">
                                                 <label >Tên Người Dùng</label>
                                                 {{-- <label class="form-control mb-3" >{{$nhanvien->id_chucvu}}</label> --}}
-                                                <input type="text" class="form-control mb-3" name="name" placeholder="Nhập tên người dùng" value="{{$user->name}}" >
+                                                <input type="text" class="form-control mb-3" name="name" placeholder="Nhập tên người dùng" value="{{$user->name}}" required>
                                             </div>
                                             
                                             <div class="form-group col-md-4 mb-3">
@@ -300,6 +337,7 @@
                                 </div>
                             </div>
                         </form>
+                </div>
                 </div>
             </div>
         </div>

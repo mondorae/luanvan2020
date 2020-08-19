@@ -24,7 +24,7 @@
                                                 <th>MỨC LƯƠNG CƠ BẢN</th>
                                                 <th>PHỤ CẤP</th>
                                                 <th>NGÀY KẾT THÚC HỢP ĐỒNG</th>
-                                                 <th>TRẠNG THÁI</th>
+                                                 
                                                 
                                                 
                                                 <th>TÁC VỤ</th> 
@@ -41,46 +41,14 @@
                                                 <td>{{$hopdong->ngay_bat_dau_hop_dong}}</td>
                                                 <td>{{$hopdong->muc_luong_chinh}}</td>
                                                 <td>{{$hopdong->phu_cap}}</td>
-                                                @if(isset($hopdong->ngay_ket_thuc_hop_dong))
-                                                <td>{{date('d-m-Y',strtotime($hopdong->ngay_ket_thuc_hop_dong))}}</td>
-                                                @else 
-                                                <td>Vô hạn</td>
-                                                @endif
-                                                 {{-- @if(($phuluc->id_loaiphuluc==3)) --}}
-                                               
-                                               @if(isset($phuluc->tbl_chitietphuluc->ngay_ket_thuc))
-                                               <?php 
-                                               $a=(strtotime($phuluc->tbl_chitietphuluc->ngay_ket_thuc)- strtotime(date("Y-m-d")))/(60*60*24*30);
-                                               ?>
-                                               @if ($a <0) 
-                                               <td class="label label-danger">Đã gia hạn: Hết hạn</td>
-                                               
-                                                    @elseif ($a >0 & $a<2 )
-                                                    <td class=" label label-primary">Đã gia hạn: Sắp hết hạn </td>
-                                                   @else 
-                                               <td class=" label label-success">Đã gia hạn: Còn hạn </td>
-                                               @endif
-                                              @else
-                                              @if(isset($hopdong->ngay_ket_thuc_hop_dong))
-                                              <?php 
-                                              $a=(strtotime($hopdong->ngay_ket_thuc_hop_dong)- strtotime(date("Y-m-d")))/(60*60*24*30);
-
-                                              ?>
-                                             
-                                                  @if ($a <0)
-                                                  <td class="label label-danger">Hết hạn</td>
-                                              
-                                                   @elseif ($a >0 & $a<2)
-                                                   <td class=" label label-primary">Sắp hết hạn </td>
-                                                  @else 
-                                                  <td class=" label label-success">Còn hạn </td>
-                                                  @endif
-                                              @else
-                                              
-                                              <td class=" label label-success">Còn hạn </td>
-                                              @endif
-                                              @endif
                                                 
+                                                @if(isset($hopdong->ngay_ket_thuc_hop_dong))
+                                                                            <td>{{date('d-m-Y',strtotime($hopdong->ngay_ket_thuc_hop_dong))}}</td>
+                                                                            @else 
+                                                                            <td>Vô hạn</td>
+                                                                            @endif
+                                                                             {{-- @if(($phuluc->id_loaiphuluc==3)) --}}
+                                                                       
                                                 {{-- <td><a class="btn btn-primary" href="" title="Lập phụ lục"> <i class="fa fa-edit"></i> Lập phụ lục</a></td> --}}
                                                 <td>
                                                     {{-- <a class="btn btn-primary" href="{{url('private/hopdong/'.$hd->id_nhanvien)}}" title="Xem"> <i class="fa fa-eye"></i> Xem</a> --}}

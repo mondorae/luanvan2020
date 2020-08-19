@@ -2,16 +2,28 @@
         @section('content')
         <div class="banner">
             <div class="owl-carousel owl-theme">
-                <div class="item">
+                {{-- <div class="item">
                     <img src="upload/slide/1326_hinh-nen-laptop.jpeg" >
                 </div>
                 <div class="item">
                     <img src="upload/slide/Ai16_hinh-anh-cuc-quang-1.jpg" >    
-                </div>
+                </div> --}}
                 <div class="item">
                     <img src="upload/slide/jXdY_vinbanner-20190725T095649450825.jpg" > 
                 </div>
+               
             </div>
+            <p>CUỘN XUỐNG</p>
+            <div class="imgscroll">
+                
+            <img class="ar" src="https://vingroup.net/assets/images/scrolldown-icon.png"  style="width: 14px">
+            </div>
+            {{-- width: 12px;
+    position: absolute;
+    z-index: 999999;
+    color: black;
+    top: 570px;
+    left: 50%; --}}
         </div>
         <section id="page-intro">
             <div class="container">
@@ -62,8 +74,11 @@
                                     </div>
                                     <div class="page-new-content">
                                         <div class="desc">
-                                            <p>Tin {{$tintuc['LoaiTin']['Ten']}}</p>
+                                            <p> {{$tintuc['LoaiTin']['Ten']}}</p>
                                         </div>
+                                        {{-- <div >
+                                            <p> {{$tintuc['LoaiTin']['Ten']}}</p>
+                                        </div> --}}
                                         <div class="title">
                                             <span class="type-title">{{$tintuc['TieuDe']}}</span>
                                         </div>

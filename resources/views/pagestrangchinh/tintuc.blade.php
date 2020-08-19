@@ -16,8 +16,9 @@
 					</div>
 
 					<div class="page-content1">
-						<img src="upload/tintuc/{{$tintuc->Hinh}}" alt="" align="bottom">
-						<p style="margin-top: 15px;margin-bottom: 15px;line-height: 30px;">{{$tintuc->NoiDung}}
+						
+						<p style="margin-top: 15px;margin-bottom: 15px;line-height: 30px;"><img src="upload/tintuc/{{$tintuc->Hinh}}" align="left" style="width:50%;padding:12px">{{$tintuc->NoiDung}}
+							
 						</p>
 						
 

@@ -8,16 +8,22 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">DANH SÁCH PHÒNG BAN</h1>
                     </div>
-                    @if(session('thongbao'))
-                                <div class="alert alert-success">
-                                {{session('thongbao')}}
-                                </div>
-                            @endif
+                   
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
                                 <div class="card-body">
+                                    @if(session('thongbao'))
+                                    <div class="alert alert-success ">
+                                    {{session('thongbao')}}
+                                    </div>
+                                @endif
+                                @if(session('thatbai'))
+                                    <div class="alert alert-danger ">
+                                    {{session('thatbai')}}
+                                    </div>
+                                @endif
                                     <div class="btn-group">
-                                        <a class="btn btn-info mb-3" href="{{url('private/private/phongban/them')}}"><i class="fa fa-plus mr-2"></i>Thêm mới</a>
+                                        <a class="btn btn-info mb-3" href="{{url('private/phongban/them')}}"><i class="fa fa-plus mr-2"></i>Thêm mới</a>
                                         
                                     </div>
                                     <!-- /.col-lg-12 -->
@@ -34,7 +40,8 @@
                                             <tr class="even gradeC" align="center">
                                                 <td>{{$pb->id_phongban}}</td>
                                                 <td>{{$pb->ten_phong_ban}}</td>
-                                                <td><a class="btn btn-warning" href="{{url('private/private/phongban/sua/'.$pb->id_phongban)}}"><i class="fa fa-edit mr-2"></i>Sửa</a> <a class="btn btn-danger" href="{{url('private/private/phongban/xoa/'.$pb->id_phongban)}}"><i class="fa fa-trash mr-2"></i>Xóa</a></td>
+                                                <td><a class="btn btn-warning" href="{{url('private/phongban/sua/'.$pb->id_phongban)}}"><i class="fa fa-edit mr-2"></i>Sửa</a> 
+                                                    <a class="btn btn-danger" href="{{url('private/phongban/xoa/'.$pb->id_phongban)}}"><i class="fa fa-trash mr-2"></i>Xóa</a></td>
                                             </tr> 
                                         @endforeach
                                         </tbody>

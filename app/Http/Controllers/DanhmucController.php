@@ -15,6 +15,8 @@ use App\tbl_phucap;
 use App\tbl_loaihopdong;
 use App\tbl_chamcong;
 use App\tbl_phuluc;
+use App\tbl_bangluong;
+use Auth;
 
 class DanhmucController extends Controller
 {
@@ -48,9 +50,17 @@ class DanhmucController extends Controller
     }
 
     public function getDanhSachNV(){
-        $nhanvien=tbl_hosonhanvien::all(); 
+        // if(Auth::user->tbl_chucvu->tbl_phongban->ten_phong_ban == GD){}
+        $nhanvien=tbl_hosonhanvien::orderBy('created_at','desc')->get(); 
         return view('danhmuc.dsnv',['nhanvien'=>$nhanvien]);
     }
+
+    public function getDanhSachNVPB(){
+        $nhanvien = tbl_hosonhanvien::where('id_chucvu','like','%'.Auth::user()->tbl_hosonhanvien->tbl_chucvu->id_phongban)->get();
+        $tenpb = Auth::user()->tbl_hosonhanvien->tbl_chucvu->tbl_phongban->ten_phong_ban;
+        return view('danhmuc.dsnvpb',compact('nhanvien','tenpb'));
+    }
+
 
     public function getDanhSachHD(){
         $hopdong=tbl_hopdong::all();
@@ -64,15 +74,12 @@ class DanhmucController extends Controller
         foreach($hopdong as $hd){
         
         $phuluc=tbl_phuluc::where('id_hopdong',$hd->id_hopdong)->first();
-        if(isset($phuluc))
-        return view('danhmuc.dshdnv',['hopdong'=>$hopdong,'nhanvien'=>$nhanvien,'phuluc'=>$phuluc]);
     }
-        
-       
-       
-        
-        
-        
+    
+        if(isset($phuluc)){
+        return view('danhmuc.dshdnv',['hopdong'=>$hopdong,'nhanvien'=>$nhanvien,'phuluc'=>$phuluc]);
+    
+        }
         return view('danhmuc.dshdnv',['hopdong'=>$hopdong,'nhanvien'=>$nhanvien]);
     }
     
@@ -108,5 +115,43 @@ class DanhmucController extends Controller
         $chamcong = tbl_chamcong::where('check_in','like', date('Y-m-d').'%')->get(); 
         //var_dump($chamcong);exit;
         return view('danhmuc.dschamcong',compact('chamcong'));
+    }
+    public function getDanhSachLuong(){
+        $luong=tbl_bangluong::all();
+        return view('danhmuc.dsluong',compact('luong'));
+    }
+    public function getDanhSachThuongAll(){
+        $thuong = tbl_luuykien::where('id_ykien',9)
+                ->where('trang_thai',2)      
+                ->get();
+        return view('danhmuc.dsthuongAll',compact('thuong'));
+    }
+
+    public function getDanhSachKyLuatAll(){
+        $kyluat = tbl_luuykien::where('id_ykien',10)
+                ->where('trang_thai',2)      
+                ->get();
+        return view('danhmuc.dskyluatAll',compact('kyluat'));
+    }
+
+    public function getDanhSachThuong(){
+        $thuong = tbl_luuykien::where('id_ykien',9)
+                ->where('nguoi_huong',Auth::user()->tbl_hosonhanvien->ho_ten)
+                ->where('trang_thai',2)
+                ->get();
+        return view('danhmuc.dsthuong',compact('thuong'));
+    }
+
+    public function getDanhSachKyLuat(){
+        $kyluat = tbl_luuykien::where('id_ykien',10)
+                ->where('nguoi_huong',Auth::user()->tbl_hosonhanvien->ho_ten)
+                ->where('trang_thai',2)
+                ->get();
+        return view('danhmuc.dskyluat',compact('kyluat'));
+    }
+
+    public function getDanhSachBaoHiem(){
+        $nhanvien = tbl_hosonhanvien::all();
+        return view('danhmuc.dsbh',compact('nhanvien'));
     }
 }

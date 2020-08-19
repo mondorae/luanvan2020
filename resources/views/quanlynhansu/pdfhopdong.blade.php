@@ -10,8 +10,8 @@
     </style>
 </head>
 <body>
-    <p style="text-align: center;">Tên đơn vị:Công ty XYZ <b style="margin-left: 15%;font-size: 25px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b></p>
-    <p style="text-align: center;">Số:.../....	<u style="margin-left: 31%;">Độc lập - Tự do - Hạnh phúc </u></p>
+    <p style="text-align: center;">Tên đơn vị:Công ty {{$thongtinchinh->ten_cong_ty}} <b style="margin-left: 10%;font-size: 25px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b></p>
+    <p style="text-align: center;">Số:{{$hopdong->id_hopdong}}	<u style="margin-left: 31%;">Độc lập - Tự do - Hạnh phúc </u></p>
     @if ($hopdong->id_loaihopdong==1)
     <p style="text-align: center;font-size: 30px"><b>HỢP ĐỒNG LAO ĐỘNG XÁC ĐỊNH THỜI HẠN</b></p>
     @elseif ($hopdong->id_loaihopdong==2) 
@@ -19,8 +19,7 @@
     @else 
     <p style="text-align: center;font-size: 30px"><b>HỢP ĐỒNG LAO ĐỘNG THỜI VỤ</b></p>
     @endif
-    <p>Số: {{$hopdong->id_hopdong}}</p>
-    <p>Hôm nay, ngày {{date('d')}} tháng {{date('m')}} năm {{date('y')}}. Tại ………………đây……………………………</p>
+    <p>Hôm nay, ngày {{date('d')}} tháng {{date('m')}} năm {{date('y')}}. Tại: Công ty {{$thongtinchinh->ten_cong_ty}} </p>
     <b style="font-size: 25px">NGƯỜI SỬ DỤNG LAO ĐỘNG (BÊN A):</b>
     <p>Đại diện Ông/Bà: {{Auth::user()->tbl_hosonhanvien->ho_ten}}</p>
     <p>Chức vụ:{{Auth::user()->tbl_hosonhanvien->tbl_chucvu->ten_chuc_vu}}</p>
@@ -57,7 +56,7 @@
     <p>Từ ngày {{date('d',strtotime($hopdong->ngay_bat_dau_hop_dong))}} tháng {{date('m',strtotime($hopdong->ngay_bat_dau_hop_dong))}} năm {{date('Y',strtotime($hopdong->ngay_bat_dau_hop_dong))}} đến ngày {{date('d',strtotime($hopdong->ngay_ket_thuc_hop_dong))}} tháng {{date('m',strtotime($hopdong->ngay_ket_thuc_hop_dong))}} năm {{date('Y',strtotime($hopdong->ngay_ket_thuc_hop_dong))}}</p>
     @endif
 
-    <p>Địa điểm làm việc: ………...…………………Địa điểm…………………………………………………</p>
+    <p>Địa điểm làm việc: {{$thongtinchinh->dia_chi}}</p>
     
     <p>Bộ phận công tác: Phòng {{$nhanvien->tbl_chucvu->tbl_phongban->ten_phong_ban}}. Chức danh chuyên môn (vị trí công tác): {{$nhanvien->tbl_chucvu->ten_chuc_vu}}.</p>
     @if ($hopdong->id_loaihopdong==3)
@@ -208,7 +207,7 @@
     <p>Những vấn đề về lao động không ghi trong Hợp đồng lao động này thì áp dụng theo quy định của Thỏa ước tập thể, nội quy lao động và Pháp luật lao động.</p>
     <p>Khi hai bên ký kết Phụ lục hợp đồng lao động thì nội dung của Phụ lục hợp đồng lao động cũng có giá trị như các nội dung của bản hợp đồng này.</p>
     <p>Hợp đồng này được lập thành 02 (hai) bản có giá trị như nhau, Hành chính nhân sự giữ 01 (một) bản, Người lao động giữ 01 (một) bản và có hiệu lực kể từ ngày {{date('d',strtotime($hopdong->ngay_bat_dau_hop_dong))}} tháng {{date('m',strtotime($hopdong->ngay_bat_dau_hop_dong))}} năm {{date('Y',strtotime($hopdong->ngay_bat_dau_hop_dong))}}</p>
-    <p>Hợp đồng được lập tại:…Công Ty....</p>
+    <p>Hợp đồng được lập tại: Công ty {{$thongtinchinh->ten_cong_ty}}</p>
     <br>
                                   
                                              

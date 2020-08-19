@@ -10,37 +10,21 @@ use App\tbl_phucap;
 
 class PhucapController extends Controller
 {
-    // public function getThemPC(){
-    //     $chucvu = tbl_chucvu::all();
-    //     $phongban = tbl_phongban::all();
-    //     return view('layout.phucap.themPC',compact('chucvu','phongban'));
-    // }
-
-    // public function postThemPC(Request $request){
-    //     $phucap = new tbl_phucap;
-    //     $phucap->an_trua = $request->an_trua;
-    //     $phucap->xang_xe = $request->xang_xe;
-    //     $phucap->trach_nhiem = $request->trach_nhiem;
-    //     $phucap->khac=$request->khac;
-    //     $phucap->id_chucvu = $request->id_chucvu;
-    //     $phucap->save();
-    //     return redirect('private/phucap/them')->with('thongbao','Thêm Thành Công');
-    // }
 
     public function getSuaPC($id){
-        $phucap =tbl_phucap::find($id);
+        $phucap =tbl_phucap::where('id_chucvu',$id)->first();
         return view('layout.phucap.suaPC',compact('phucap'));
     }
 
     public function postSuaPC(Request $request, $id){
-        $phucap=tbl_phucap::find($id);
+        $phucap=tbl_phucap::where('id_chucvu',$id)->first();
         $phucap->an_trua = $request->an_trua;
         $phucap->xang_xe = $request->xang_xe;
         // $phucap->trach_nhiem = $request->trach_nhiem;
         $phucap->khac=$request->khac;
         $phucap->tong_tien_phu_cap=$request->khac+$request->an_trua+$request->xang_xe+$request->trach_nhiem;
         $phucap->save();
-        return redirect('private/phucap/sua/'.$phucap->id)->with('thongbao','Sửa Thành Công');
+        return redirect('private/phucap/danhsach')->with('thongbao','Thành Công');
     }
 
     // public function getXoaPC($id){

@@ -7,19 +7,20 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "UTM Avo";
+    font-family: 'Alata', sans-serif;
 }
 
 p {
     margin: 0 0 10px;
+    font-family: 'Comfortaa', cursive;
 }
 
-.h1,
 h1 {
     font-size: 36px;
 }
 
 .header {
+    font-family: "Algerian";
     display: flex;
     padding: 20px 0;
     position: fixed;

@@ -26,12 +26,19 @@
                     <div class="card">
                         <h5 class="card-header">Thêm loại tin mới</h5>
                         <div class="card-body">
+                            @if(count($errors)>0)
+                        <div class="alert alert-danger">
+                            @foreach($errors->all() as $err)
+                            {{$err}}<br>
+                            @endforeach
+                        </div>
+                        @endif
                             @if(session('thongbao'))
                                 <div class="alert alert-success">
                                 {{session('thongbao')}}
                                 </div>
                             @endif
-                        <form class="needs-validation" method="POST" action="{{url('private/loaitin/them')}}" novalidate>
+                        <form class="needs-validation" method="POST" action="{{url('private/loaitin/them')}}" >
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -39,8 +46,8 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label>Thể loại</label>
-                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;">
-                                                    <option value="0">Chọn thể loại</option>
+                                                <select class="form-control" name="TheLoai" style="-webkit-appearance: auto;" required>
+                                                    <option value="">Chọn thể loại</option>
                                                     @foreach($theloai as $tl)
                                                     <option  value="{{$tl->id}}">{{$tl->Ten}}</option>
                                                     @endforeach
@@ -48,7 +55,7 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Tên loại tin</label>
-                                                <input class="form-control" name="Ten" placeholder="Nhập tên loại tin" />
+                                                <input class="form-control" name="Ten" placeholder="Nhập tên loại tin" required/>
                                             </div>
                                            
                                         </div>

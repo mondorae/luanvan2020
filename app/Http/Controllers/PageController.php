@@ -9,10 +9,15 @@ use App\LoaiTin;
 use App\Slide;
 use App\TinTuc;
 use App\User;
+use App\tbl_thongtinchinh;
+use App\tbl_thongtingioithieu;
+use App\tbl_tintuyendung;
 class PageController extends Controller
 { 
     //
     function __construct(){
+        $thongtinchinh=tbl_thongtinchinh::first();
+        view()->share('thongtinchinh',$thongtinchinh);
         $theloai=Theloai::all();
         view()->share('theloai',$theloai);
 
@@ -130,7 +135,16 @@ class PageController extends Controller
         return view('pagestrangchinh.lienhe');
     }
     function getGioithieuchung(){
-        return view('pagestrangchinh.gioithieu');
+        $gioithieu=tbl_thongtingioithieu::all();
+        return view('pagestrangchinh.gioithieu',['gioithieu'=>$gioithieu]);
+    }
+    function getTuyendung(){
+        $tuyendung=tbl_tintuyendung::all();
+        return view('pagestrangchinh.tintuyendung',['tuyendung'=>$tuyendung]);
+    }
+    function getTinTuyendung($id){
+        $tuyendung= tbl_tintuyendung::find($id);
+        return view('pagestrangchinh.tuyendung',['tuyendung'=>$tuyendung]);
     }
 }
 

@@ -35,12 +35,19 @@
                     <div class="card">
                         <h5 class="card-header">Thêm phòng ban</h5>
                         <div class="card-body">
+                            @if(count($errors)>0)
+                            <div class="alert alert-danger">
+                                @foreach($errors->all() as $err)
+                                {{$err}}<br>
+                                @endforeach
+                            </div>
+                            @endif
                             @if(session('thongbao'))
                                 <div class="alert alert-success">
                                 {{session('thongbao')}}
                                 </div>
                             @endif
-                        <form class="needs-validation" method="POST" action="{{url('private/phongban/them')}}"novalidate>
+                        <form name="myform" class="needs-validation" method="POST" action="{{url('private/phongban/them')}}" onsubmit="return validatephongban()" novalidate>
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -48,13 +55,15 @@
                                             Looks good!
                                         </div> -->
                                         <div class="form-row">
-                                            <div class="form-group col-md-2">
+                                            <div class="form-group col-md-3">
                                                 <label for="id_phongban">Mã Phòng Ban</label>
                                                 <input type="text" class="form-control" id="id_phongban" name="id_phongban" placeholder="Mã Phòng Ban" value="" required>
+                                                <span id="maphongban"></span>
                                             </div>
-                                            <div class="form-group col-md-8">
+                                            <div class="form-group col-md-9">
                                                 <label for="ten_phong_ban">Tên Phòng Ban</label>
                                             <input type="text" class="form-control" id="ten_phong_ban" name="ten_phong_ban" placeholder="Tên Phòng Ban" value="" required>
+                                            <span id="phongban"></span>
                                             </div> 
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">

@@ -6,7 +6,7 @@
         <div id="page-wrapper" >
             <div class="container-fluid  dashboard-content">
                 <div class="col-lg-12">
-                    <h1 class="page-header">DANH SÁCH CHẤM CÔNG NGÀY {{date('d-m-Y')}}</h1>
+                    <h1 class="page-header">DANH SÁCH CHẤM CÔNG THÁNG {{date('m')}}</h1>
                 </div>
                 @if(session('thongbao'))
                 <div class="alert alert-success">
@@ -21,6 +21,7 @@
                                 <table class="table table-striped table-bordered" id="data-tables">
                                     <thead>
                                        <tr align="center">
+                                            <th>Ngày</th>
                                             <th>Nhân Viên</th>
                                             <th>Giờ Vào</th>
                                             <th>Giờ ra</th>
@@ -30,6 +31,7 @@
                                     <tbody>
                                     @foreach($chamcong as $cc) 
                                         <tr class="even gradeC" align="center">
+                                            <td>{{date('d/m',strtotime($cc->check_in))}}</td>
                                             <td>{{$cc->tbl_bangluong->tbl_hosonhanvien->ho_ten}}</td>
                                             <td>{{date('H:i:s',strtotime($cc->check_in))}}</td>
                                             <td>
@@ -41,7 +43,7 @@
                                             </td>
                                             <td>
                                             @if(isset($cc->id_tangca))
-                                                Có tăng ca <a href="#"> (xem lý do)</a>
+                                                Có tăng ca <a href="{{url('private/chamcong/tangca/chitiet/'.$cc->id_tangca)}}"> (xem lý do)</a>
                                             @else
                                                 Không có    
                                             @endif

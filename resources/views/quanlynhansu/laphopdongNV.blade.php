@@ -54,81 +54,19 @@
                                                 <div class="form-group col-md-6">
                                                     <label >Loại hợp đồng</label>
                                                     
-                                                    <select id="ten_hop_dong" name="ten_hop_dong" class="form-control" style="-webkit-appearance: auto;">
+                                                    <select id="ten_hop_dong" name="ten_hop_dong" class="form-control" style="-webkit-appearance: auto;" required>
                                                         <option  value="0"> Chọn Loại Hợp Đồng</option>
                                                         @foreach($loaihd as $lhd)
                                                             <option value="{{$lhd->id_loaihopdong}}">{{$lhd->ten_hop_dong}}</option>
                                                             @endforeach
                                                     </select>
-                                                    <?php $dem3=0;$dem1=0;$dem2=0;
-                                                     foreach($hopdong as $hd){
-                                                        if($hd->id_loaihopdong==1){
-                                                            $dem1=$dem1+1;
-                                                        }
-                                                        if($hd->id_loaihopdong==3){
-                                                            $dem3=$dem3+1;
-                                                        }
-                                                        if($hd->id_loaihopdong==2){
-                                                            $dem2=$dem2+1;
-                                                        }
-                                                        // @endif
-                                                        // {{-- @if($hd->id_loaihopdong==0){
-                                                        //     {{$dem1=$dem1+1}}
-                                                        // }
-                                                        // @endif
-                                                        // @if($dem==2){
-                                                        //     {{ $dem}}
-                                                        // }
-                                                        // @endif --}}
-                        
-                                                    }
-                                                    
-                                                  
-                                                    ?>
-                                                <div class="form-group col-md-3 show time" id="dem2">
-                                                    @if($dem2>=1)
-                                                        <h3>{{"Không thể tạo hợp đồng vì là hợp đồng không thời hạn!!i  !!"}}</h3>
-                                                        @else 
-                                                        <div class="form-group col-md-3 show time" id="time">
-                                                            <label>Ngày bắt đầu hợp đồng</label>
-                                                            <input type="date" class="form-control" name="ngay_bat_dau_hop_dong">
-                                                          </div>
-                                                          {{-- <div class="show ketthuc" id="ketthuc"> --}}
-                                                          <div class="form-group col-md-3 show ketthuc" id="ketthuc">
-                                                              <label>Ngày kết thúc hợp đồng</label>
-                                                              <input type="date" class="form-control" name="ngay_ket_thuc_hop_dong">
-                                                            </div>
-                                                        @endif
-                                                </div>
-                                                        <div class="form-group col-md-3 show time" id="dem1"> 
-                                                    @if($dem1>=2)
-                                                        <h3>{{"Không thể tạo hợp đồng có time vì >2!!"}}</h3>
-                                                       
-                                                     @else 
-                                                     <div class="form-group col-md-3 show time" id="time">
-                                                            <label>Ngày bắt đầu hợp đồng</label>
-                                                            <input type="date" class="form-control" name="ngay_bat_dau_hop_dong">
-                                                          </div>
-                                                          {{-- <div class="show ketthuc" id="ketthuc"> --}}
-                                                          <div class="form-group col-md-3 show ketthuc" id="ketthuc">
-                                                              <label>Ngày kết thúc hợp đồng</label>
-                                                              <input type="date" class="form-control" name="ngay_ket_thuc_hop_dong">
-                                                            </div>
-                                                        </div>
-                                                        @endif
-                                                        {{-- <div class="form-group col-md-3 show time" id="dem3"> 
-                                                    @elseif($dem3>=2)
-                                                        <h3>{{"Không thể tạo hợp đồng no time vì >2 "}}</h3>
-                                                        </div>
-                                                   @endif --}}
                                                     
                                                    
                                                 </div>
-                                               {{-- @if($dem2<1||$dem1<2||$dem3<2)
                                                 
                                                 <div class="form-group col-md-3 show time" id="time">
                                                   <label>Ngày bắt đầu hợp đồng</label>
-                                                  <input type="date" class="form-control" name="ngay_bat_dau_hop_dong">
+                                                  <input type="date" class="form-control" name="ngay_bat_dau_hop_dong" required>
                                                 </div>
                                               
                                                 <div class="form-group col-md-3 show ketthuc" id="ketthuc">
@@ -154,7 +92,7 @@
                                             <div class="form-row mb-3 ">
                                                 <div class="form-group col-md-6 mt-3">
                                                   <label >Mức lương chính</label>
-                                                  <input type="text" class="form-control" name="muc_luong_chinh" placeholder="Nhập mức lương chính( lương cơ bản)">
+                                                  <input type="text" class="form-control" name="muc_luong_chinh" placeholder="Nhập mức lương chính( lương cơ bản)" required>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label >Phụ cấp với chức vụ: {{$nhanvien->tbl_chucvu->ten_chuc_vu}} </label>
@@ -162,7 +100,6 @@
                                                     <div class="form-group col-md-3">
                                                     <p class=" ml-4 mb-4">Ăn trưa</p>
                                                     <p class="ml-4 mb-4">Xăng xe</p>
-                                                    <p class="ml-4 mb-4">Trách nhiệm</p>
                                                     <p class="ml-4 mb-4">Khác</p>
                                                     <div class="gach" style="background-color: red;
                                                     width: 300px;
@@ -171,18 +108,17 @@
                                                     
                                                     </div>
                                                     <div class="form-group col-md-3">
-                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{$phucap->an_trua}}</label>
-                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{$phucap->xang_xe}}</label>
-                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{$phucap->trach_nhiem}}</label>
-                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{$phucap->khac}}</label>
-                                                    <label type="text" class="form-control text-center mt-5" name="muc_luong_chinh">{{$phucap->tong_tien_phu_cap}}</label>
+                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{($phucap->an_trua)}}đ/tháng</label>
+                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{($phucap->xang_xe)}}đ/tháng</label>
+                                                    <label type="text" class="form-control text-center" name="muc_luong_chinh">{{($phucap->khac)}}đ/tháng</label>
+                                                    <label type="text" class="form-control text-center mt-5" name="muc_luong_chinh">{{($phucap->tong_tien_phu_cap)}}đ/tháng</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            @endif --}}
+                                            {{-- @endif --}}
                                                 
                                             </div>
-                                            </div>
+                                            
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3 ">
                                             <button class="btn btn-primary mr-5" type="submit">Thêm</button>

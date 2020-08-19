@@ -47,6 +47,7 @@
                                         </div> -->
                                         <label for="loai_y_kien">Loại Ý Kiến / Đề Xuất</label>
                                         <textarea class="form-control" id="" name="loai_y_kien" placeholder="{{$loaiykien->loai_y_kien}}" value=""></textarea>
+                                        
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <button class="btn btn-primary" type="submit">Lưu</button>
                                                 <button class="btn btn-default" type="reset">Reset</button>

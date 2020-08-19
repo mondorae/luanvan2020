@@ -25,6 +25,8 @@
     {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.bootstrap4.min.css"> --}}
 
+   
+
 
     
         
@@ -35,7 +37,7 @@
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
+    <div class="dashboard-main-wrapper" style="padding-top: 80px !important">
         <!-- ============================================================== -->
        @include('layout.header')
         <!-- ============================================================== -->
@@ -90,6 +92,7 @@
 <script src="{{asset('admin_asset/assets/vendor/charts/c3charts/d3-5.4.0.min.js')}}"></script>
 <script src="{{asset('admin_asset/assets/vendor/charts/c3charts/C3chartjs.js')}}"></script>
 <script src="{{asset('admin_asset/assets/libs/js/dashboard-ecommerce.js')}}"></script>
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 @yield('script')
 <!-- Optional JavaScript -->
 <script src="{{asset('js/custom.js')}}"></</script>

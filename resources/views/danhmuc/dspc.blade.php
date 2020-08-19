@@ -9,7 +9,7 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                     <div class="col-lg-12">
-                        <h1 class="page-header">DANH SÁCH PHÒNG BAN</h1>
+                        <h1 class="page-header">DANH SÁCH PHỤ CẤP THEO CHỨC VỤ</h1>
                     </div>
                     @if(session('thongbao'))
                                 <div class="alert alert-success">
@@ -27,11 +27,10 @@
                                     <table class="table table-striped table-bordered table-hover" id="data-tables">
                                         <thead>
                                             <tr align="center">
-                                                <th>Tên chức vụ</th>
-                                                <th>Thuộc phòng ban</th>
+                                                <th>Vị trí</th>
+                                               
                                                 <th>Tiền ăn trưa</th>
                                                 <th>Tiền xăng</th>
-                                                <th>Tiền trách nhiệm</th>
                                                 <th>Khác</th>
                                                 <th>Tổng tiền phụ cấp</th>
                                                 <th>Tác vụ</th>
@@ -41,14 +40,13 @@
                                         <tbody>
                                             @foreach($phucap as $pc)
                                             <tr class="even gradeC" align="center">
-                                                <td>{{$pc->tbl_chucvu->ten_chuc_vu}}</td>
-                                                <td>{{$pc->tbl_chucvu->tbl_phongban->ten_phong_ban}}</td>
-                                                <td>{{$pc->an_trua}}</td>
-                                                <td>{{$pc->xang_xe}}</td>
-                                                <td>{{$pc->trach_nhiem}}</td>
-                                                <td>{{$pc->khac}}</td>
-                                                <td>{{$pc->tong_tien_phu_cap}}</td>
-                                                <td><a class="btn btn-warning" href="{{url('private/phucap/sua/'.$pc->id)}}"><i class="fa fa-edit mr-2"></i>Sửa</a></td>
+                                                <td>{{$pc->tbl_chucvu->ten_chuc_vu}} - {{$pc->tbl_chucvu->tbl_phongban->ten_phong_ban}}</td>
+                                                
+                                                <td>{{number_format($pc->an_trua)}} đ/tháng</td>
+                                                <td>{{number_format($pc->xang_xe)}} đ/tháng</td>
+                                                <td>{{number_format($pc->khac)}} đ/tháng</td>
+                                                <td>{{number_format($pc->tong_tien_phu_cap)}} đ/tháng</td>
+                                                <td><a class="btn btn-warning" href="{{url('private/phucap/sua/'.$pc->id_chucvu)}}"><i class="fa fa-edit mr-2"></i>Sửa</a></td>
                                             </tr>
                                             @endforeach
                                         </tbody>

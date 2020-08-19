@@ -39,7 +39,7 @@
                             @endif
                         <div class="card-body">
                            
-                        <form class="needs-validation" method="POST" action="{{url('private/theloai/sua/'.$theloai->id)}}" novalidate>
+                        <form class="needs-validation" method="POST" action="{{url('private/theloai/sua/'.$theloai->id)}}" >
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -50,7 +50,7 @@
                                             
                                             <div class="form-group col-md-12">
                                                 <label>Tên thể loại</label>
-                                                <input type="text" class="form-control" name="Ten" placeholder="Hãy điền tên thể loại." value="{{$theloai->Ten}}" />
+                                                <input type="text" class="form-control" name="Ten" placeholder="Hãy điền tên thể loại." value="{{$theloai->Ten}}" required />
                                             </div> 
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">

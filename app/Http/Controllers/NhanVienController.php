@@ -22,22 +22,12 @@ use App\tbl_chitietphuluc;
 
 class NhanVienController extends Controller
 {
-    function __construct(){
-        
-        if(Auth::check()){
-            view()->share('nhanvien',Auth::user());
-        }
-    }
     public function getview(){ 
         
-        // $phuluc=tbl_phuluc::where('id_nhanvien',Auth::user()->id_nhanvien)->get();
-        
-        // if(isset($phuluc)){
-        
-        // return view('layout.content',['phuluc'=>$phuluc]);
-        // }
-        // else
-        return view('layout.content');
+        $tongnhanvien=tbl_hosonhanvien::count();
+        $nhanviennam =tbl_hosonhanvien::where('gioi_tinh',1)->count();
+        $nhanviennu =tbl_hosonhanvien::where('gioi_tinh',0)->count();
+        return view('layout.content',['tongnhanvien'=>$tongnhanvien,'nhanviennam'=>$nhanviennam,'nhanviennu'=>$nhanviennu]);
         
     }
     
@@ -57,28 +47,19 @@ class NhanVienController extends Controller
         $ds_ho_so = tbl_hoso::all();
         // $user = User::find($id);
         $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
-        $giadinh=tbl_giadinh::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        $giadinh=tbl_giadinh::where('id_nhanvien',$id_nhanvien)->first();
         
         $lienhe=tbl_lienhe::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
         
         $trinhdo=tbl_trinhdo::where('id_nhanvien',$nhanvien->id_nhanvien)->get();
         $user=User::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
         
-        $hopdong=tbl_hopdong::where('id_nhanvien',$id_nhanvien)->get();
-            
-        foreach($hopdong as $hd){
-            if($hd->trang_thai==1){
-                $phuluc=tbl_phuluc::where('id_hopdong',$hd->id_hopdong)->first();
+        $hopdong=tbl_hopdong::where([['id_nhanvien',Auth::user()->id_nhanvien],['trang_thai','1']])->first();
+        $phuluc=tbl_phuluc::where([['id_hopdong',$hopdong->id_hopdong],['id_loaiphuluc','2']])->first();
+        if(isset($phuluc)){
             return view('pages.hosonhanvien',['nhanvien'=>$nhanvien,'lienhe'=>$lienhe,'trinhdo'=>$trinhdo,'giadinh'=>$giadinh,'ds_ho_so'=>$ds_ho_so,'user'=>$user,'phuluc'=>$phuluc]);
-        }  
+        
         }
-            
-        
-            
-           
-        
-        
-        
         return view('pages.hosonhanvien',['nhanvien'=>$nhanvien,'lienhe'=>$lienhe,'trinhdo'=>$trinhdo,'giadinh'=>$giadinh,'ds_ho_so'=>$ds_ho_so,'user'=>$user]);
     }
 
@@ -101,11 +82,11 @@ class NhanVienController extends Controller
     }
     
     public function postSuaHoSoNhanVien(Request $request,$id_nhanvien){
-       
         $nhanvien=tbl_hosonhanvien::where('id_nhanvien',$id_nhanvien)->first();
         
         $giadinh=tbl_giadinh::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
         $lienhe=tbl_lienhe::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
+        
         $trinhdo=tbl_trinhdo::where('id_nhanvien',$nhanvien->id_nhanvien)->first();
         $user=User::where('id_nhanvien',$nhanvien->id_nhanvien)->first();        
         
@@ -130,18 +111,16 @@ class NhanVienController extends Controller
             $file->move("upload/arvarta",$Hinh);
             $nhanvien->anh_dai_dien=$Hinh;
         }
-        else{
-            $nhanvien->anh_dai_dien="";
-        }
 
-
+        
         $nhanvien->save();
         
  
         
         $lienhe->sdt_ca_nhan=$request->sdt_ca_nhan;
         $lienhe->sdt_nha=$request->sdt_nha;
-        $lienhe->email=$request->email;
+        $lienhe->email=$request->email_ca_nhan;
+       
         // $lienhe->email_cong_ty=$request->email_cong_ty;
         $lienhe->dia_chi_thuong_tru=$request->dia_chi_thuong_tru;
         $lienhe->id_tinh_thuong_tru=$request->tinh_thuong_tru;
@@ -155,27 +134,28 @@ class NhanVienController extends Controller
         $trinhdo->nam_tot_nghiep=$request->nam_tot_nghiep;
         $trinhdo->xep_loai=$request->xep_loai;
         $trinhdo->chung_chi_khac=$request->chung_chi_khac;
-
+        
         if(isset($giadinh)){
             $giadinh->ten_nguoi_than=$request->ten_nguoi_than;
             $giadinh->cong_viec=$request->cong_viec;
             $giadinh->sdt_di_dong=$request->sdt_di_dong;
             $giadinh->moi_quan_he=$request->moi_quan_he;
             $giadinh->dia_chi=$request->dia_chi;
-            $giadinh->email=$request->email;
+            $giadinh->email=$request->emailnguoithan;
             $giadinh->save();
         }
-        else{
-        $giadinh=new tbl_giadinh;
-        $giadinh->ten_nguoi_than=$request->ten_nguoi_than;
-        $giadinh->cong_viec=$request->cong_viec;
-        $giadinh->sdt_di_dong=$request->sdt_di_dong;
-        $giadinh->moi_quan_he=$request->moi_quan_he;
-        $giadinh->dia_chi=$request->dia_chi;
-        $giadinh->email=$request->email;
-        $giadinh->id_nhanvien=$nhanvien->id_nhanvien;
-        $giadinh->save();
+        elseif($request->ten_nguoi_than!=null){
+            $giadinh=new tbl_giadinh;
+            $giadinh->ten_nguoi_than=$request->ten_nguoi_than;
+            $giadinh->cong_viec=$request->cong_viec;
+            $giadinh->sdt_di_dong=$request->sdt_di_dong;
+            $giadinh->moi_quan_he=$request->moi_quan_he;
+            $giadinh->dia_chi=$request->dia_chi;
+            $giadinh->email=$request->emailnguoithan;
+            $giadinh->id_nhanvien=$nhanvien->id_nhanvien;
+            $giadinh->save();
         }
+        
         
         $user->name=$request->name;
         

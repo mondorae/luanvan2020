@@ -8,10 +8,11 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav flex-column">
-                            <li class="nav-divider">
+                        <ul class="navbar-nav flex-column" style="overflow-y: scroll;">
+                            <li class="nav-divider text-center">
                                 Menu
                             </li>
+                            
                             <li class="nav-item ">
                                 <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Quản lý danh mục<span class="badge badge-success">6</span></a>
                                 <div id="submenu-1" class="collapse submenu" style="">
@@ -46,6 +47,9 @@
                                             <a class="nav-link" href="{{url('private/chamcong/danhsach')}}">Danh sách chấm công</a>
                                         </li>
                                         <li class="nav-item">   
+                                            <a class="nav-link" href="{{url('private/loaiykien/danhsach')}}">Danh sách loại ý kiến</a>
+                                        </li>
+                                        <li class="nav-item">   
                                             <a class="nav-link" href="{{url('private/phucap/danhsach')}}">Bảng phụ cấp</a>
                                         </li>
                                         <li class="nav-item">
@@ -55,12 +59,6 @@
                                                     <li class="nav-item">
                                                     <a class="nav-link" href="#">Nhân viên</a>
                                                     </li>
-                                                    <!-- <li class="nav-item">
-                                                        <a class="nav-link" href="influencer-finder.html">Influencer Finder</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="influencer-profile.html">Influencer Profile</a>
-                                                    </li> -->
                                                 </ul>
                                             </div>
                                         </li>
@@ -76,10 +74,10 @@
                                         </li>
                                        
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{url('private/quyetdinhthoiviec')}}"quyetdinhthoiviec>Quyết định thôi việc</a>
+                                            <a class="nav-link" href="{{url('private/danhsachquyetdinh')}}">Quyết định kỷ luật nhân viên</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/tabs.html">Giao công việc</a>
+                                            <a class="nav-link" href="{{url('private/danhsachnvpb')}}">Quản lý nhân viên phòng ban</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-11" aria-controls="submenu-11">Các ý kiến, đề xuất</a>
@@ -105,7 +103,7 @@
                                             <a class="nav-link" href="{{url('private/thongtin/'.Auth::user()->id_nhanvien)}}">Thông tin cá nhân</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{url('private/NSNV001/hopdong')}}">Hợp đồng</a>
+                                            <a class="nav-link" href="{{url('private/'.Auth::user()->id_nhanvien.'/hopdong')}}">Hợp đồng</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{url('private/NSNV001/baohiem')}}">Bảo hiểm</a>
@@ -115,9 +113,6 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{url('private/chamcong')}}">Chấm công</a>
-                                        </li>
-                                        <li class="nav-item">
-                                             <a class="nav-link" href="pages/chart-gauge.html">Công việc</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-yk" aria-controls="submenu-yk">Ý Kiến / Đề xuất</a>
@@ -139,28 +134,27 @@
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fab fa-fw fa-wpforms"></i>Quản lý lương</a>
                                 <div id="submenu-4" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
-                                        <li class="nav-item">
+                                        {{-- <li class="nav-item">
                                             <a class="nav-link" href="pages/form-elements.html">Quản lý công</a>
+                                        </li> --}}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{url('private/luong/danhsach')}}">Lương nhân viên</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/form-validation.html">Lương nhân viên</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pages/multiselect.html">Multiselect</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pages/datepicker.html">Date Picker</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pages/bootstrap-select.html">Bootstrap Select</a>
+                                            <a class="nav-link" href="pages/multiselect.html">Danh sách lương </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-file"></i>Quản lý tin tức</a>
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-file"></i>Quản lý tin tức- tuyển dụng</a>
                                 <div id="submenu-5" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
+                                        <label>Tuyển dụng</label>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{url('private/tintuc/danhsachtuyendung')}}">Quản lý tuyển dụng</a>
+                                        </li>
+                                        <label>Tin tức</label>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{url('private/theloai/danhsach')}}">Thể loại tin tức</a>
                                         </li>
@@ -173,10 +167,8 @@
                                     </ul>
                                 </div>
                             </li>
-                         {{-- <li class="nav-divider">
-                                Features
-                            </li>
-                            <li class="nav-item">
+                        
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i> Pages </a>
                                 <div id="submenu-6" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
@@ -224,27 +216,22 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li> 
+                            </li>  --}}
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-inbox"></i>Apps <span class="badge badge-secondary">New</span></a>
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-inbox"></i>Quản lý khác <span class="badge badge-secondary">New</span></a>
                                 <div id="submenu-7" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/inbox.html">Inbox</a>
+                                            <a class="nav-link" href="{{url('private/thongtin/congty')}}">Thông tin công ty</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/email-details.html">Email Detail</a>
+                                            <a class="nav-link" href="{{url('private/thongtin/danhsachgioithieu')}}">Thông tin giới thiệu về công ty</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pages/email-compose.html">Email Compose</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="pages/message-chat.html">Message Chat</a>
-                                        </li>
+                                       
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-columns"></i>Icons</a>
                                 <div id="submenu-8" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
@@ -304,10 +291,12 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Level 3</a>
-                                        </li>
+                                        </li> 
                                     </ul>
                                 </div>
-                            </li> --> --}}
+                            </li>--}}
+                            <li style="text-align: center"> <a  href="{{url('private/')}}">  <img src="{{url('upload/logo/'.$thongtinchinh->Hinh)}}" style="margin-top: 40px;width: 70px;height: 70px;" class=""></a></li>
+                            <li  style="text-align: center"><a class="navbar-brand" href="{{url('private/')}}" style="color: #71748d;font-size: 15px;">{{$thongtinchinh->ten_cong_ty}}</a></li>
                         </ul>
                     </div>
                 </nav>

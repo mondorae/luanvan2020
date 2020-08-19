@@ -14,6 +14,7 @@ class LoaiYKienController extends Controller
     public function postThemLoaiYK(Request $request){
         $loaiykien = new tbl_ykien;
         $loaiykien->loai_y_kien = $request->loai_y_kien;
+        $loaiykien->chi_tiet = implode(',',$request->chi_tiet);
         $loaiykien->save();
         return redirect('private/loaiykien/them')->with('thongbao','Thêm Thành Công');
     }

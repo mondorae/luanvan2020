@@ -40,11 +40,11 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-3">
                                                 <label for="loai_y_kien">Loại Ý Kiến</label>
-                                                <div class="form-control" name="loai_y_kien">{{$ykien->tbl_ykien->loai_y_kien}}</div>
+                                                <span class="form-control" name="loai_y_kien">{{$ykien->tbl_ykien->loai_y_kien}}</span>
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="ngay_them_y_kien">Ngày Tạo Ý Kiến</label>
-                                                <div class="form-control" name="ngay_them_y_kien">{{$ykien->created_at}}</div>
+                                                <span class="form-control" name="ngay_them_y_kien">{{$ykien->created_at}}</span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="ket_qua">Kết Quả</label>
@@ -60,19 +60,19 @@
                                             </div>
                                             <div class="form-group col-md-5">
                                                 <label for="nguoi_lam_don">Nhân Viên Gửi</label>
-                                                <div class="form-control" name="nguoi_lam_don">{{$ykien->tbl_hosonhanvien->ho_ten}}</div>
+                                                <span class="form-control" name="nguoi_lam_don">{{$ykien->tbl_hosonhanvien->ho_ten}}</span>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="chuc_vu">Chức Vụ</label>
-                                                <div class="form-control" name="chuc_vu">{{$ykien->tbl_hosonhanvien->tbl_chucvu->ten_chuc_vu}}</div>
+                                                <span class="form-control" name="chuc_vu">{{$ykien->tbl_hosonhanvien->tbl_chucvu->ten_chuc_vu}}</span>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="phong_ban">Phòng Ban</label>
-                                                <div class="form-control" name="phong_ban">{{$ykien->tbl_hosonhanvien->tbl_chucvu->tbl_phongban->ten_phong_ban}}</div>
+                                                <span class="form-control" name="phong_ban">{{$ykien->tbl_hosonhanvien->tbl_chucvu->tbl_phongban->ten_phong_ban}}</span>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label for="ly_do">Lý Do</label>
-                                                <div class="form-control" name="ly_do">{{$ykien->ly_do}}</div>
+                                                <span class="form-control" name="ly_do">{{$ykien->ly_do}}</span>
                                             </div>
                                             @if(($ykien->id_ykien == 1 || $ykien->id_ykien == 2 || $ykien->id_ykien == 3 || $ykien->id_ykien == 4) && isset($ykien->thoi_gian_nghi))
                                             <div class="form-group col-md-4">
@@ -122,6 +122,17 @@
                                                 <div class="form-control " name="ly_do_tu_choi">{{$ykien->ly_do_tu_choi}}</div>
                                             </div>
                                             @endif
+                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-12">
+                                                <label for="ly_do_tu_choi">Hình ảnh minh chứng</label>
+                                            </div>
+                                            @foreach($hinhanh as $anh)
+                                            <label class="ml-5">
+                                                <a href="{{url('upload/anhminhchung/'.$anh->ten_anh)}}" target="_blank" ><img src="{{url('upload/anhminhchung/'.$anh->ten_anh)}}" style="width: 255px;height: 265px;" class="magnify" ></a>
+                                            </label>
+                                            
+                                            @endforeach
+                                            </div>
                                             @if(isset($ykien->nguoi_duyet_1))
                                             <div class="form-group col-md-4">
                                                 <label for="nguoi_duyet_1">Người Duyệt</label>
