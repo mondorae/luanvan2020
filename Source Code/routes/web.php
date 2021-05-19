@@ -103,7 +103,7 @@ Route::group(['prefix'=>'thongtin','middleware'=>'check:thongtincongty'],functio
 Route::get('danhsachnvpb','DanhmucController@getDanhSachNVPB')->middleware('check:qlnhanvienpb');;
 
 //--------------------------- Phòng ban ---------------------------
-Route::group(['prefix' => 'phongban'], function () {  //,'middleware'=>'check:phongban'
+Route::group(['prefix' => 'phongban',,'middleware'=>'check:phongban'], function () { 
     Route::get('danhsach','DanhmucController@getDanhSachPB');
     //Route::get('danhsach', ['uses'=>'DanhmucController@getDanhSachPB', 'as'=>'danhsach.index']);
     //---------------------Form Thêm phòng ban -----------------------------------
