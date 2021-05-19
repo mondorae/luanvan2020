@@ -11,7 +11,7 @@ use App\tbl_hopdong;
 use App\tbl_phuluc;
 use App\tbl_chitietphuluc;
 
-class CheckPermiss
+class CheckPermission
 {
     /**
      * Handle an incoming request.
