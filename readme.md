@@ -5,7 +5,7 @@ Mở thư mục project vừa clone, mở command prompt từ thư mục và ch�
 
 -	**composer install**
 -	**composer update**
--	**cp .env example .env**
+-	**cp .env.example .env**
 -	**php artisan config:clear**
 -	**php artisan cache:clear**
 -	**php artisan key:generate**
@@ -47,6 +47,9 @@ Tại thư mục project vừa giải nén ra, mở command prompt  và chạy c
 
 -	**php artisan cache:clear**
 
+-	**php artisan key:generate**
+
+-	**cp .env.example .env**
 Để truy cập vào trang đăng nhập tài khoản
 nhập đường dẫn như sau:
 + <-domain->/private hoặc <-domain->/login
